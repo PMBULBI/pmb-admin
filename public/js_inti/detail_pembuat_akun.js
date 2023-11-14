@@ -1,4 +1,6 @@
+// Import library yang dibutuhkan
 import { UrlGetPendaftarById } from "../controller/template.js";
+import { formatTanggalWaktu } from "../style/formatdate.js";
 
 // Untuk Get Data Pembuat Akun By ID
 // Ambil terlebih dahulu id dari URL
@@ -27,12 +29,16 @@ document.addEventListener("DOMContentLoaded", function () {
           // Check if the request was successful
           if (data.code === 200 && data.success) {
             const dataDetails = data.data;
+
+            // Ubah format tanggal
+            const tglDaftar = new Date(dataDetails.tgl_daftar_mhs);
+            const formattedTglDaftar = formatTanggalWaktu(tglDaftar);
   
             // Populate HTML elements with data
             namaMhsElement.textContent = dataDetails.nama_mhs;
             noHandphoneElement.textContent = `Nomor Whatsapp: ${dataDetails.hp_mhs}`;
             emailElement.textContent = `Email: ${dataDetails.email_mhs}`;
-            tglDaftarAkunElement.value = dataDetails.tgl_daftar_mhs;
+            tglDaftarAkunElement.value = formattedTglDaftar;
             asalSekolahElement.value = dataDetails.asal_sekolah;
             kotaSekolahElement.value = dataDetails.kota_sekolah;
             provinsiSekolahElement.value = dataDetails.provinsi_sekolah;
