@@ -26,7 +26,7 @@ CihuyDomReady(() => {
 
             // Manipulasi data pegawai dan masukkan ke dalam bentuk tabel
             tableData += `
-                        <tr>
+                        <tr style="text-align: center; vertical-align: middle">
                         <td>
                         <div class="min-width">
                             <p>${index + 1}</p>
