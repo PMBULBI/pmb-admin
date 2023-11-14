@@ -39,8 +39,8 @@ CihuyDomReady(() => {
                             <p>${values.hp_mhs}</p>
                         </td>
                         <td>
-                            <p>${values.email_mhs}</p>
-                            <p>${values.password}</p>
+                            <p><b><font color="teal">${values.email_mhs}</font></b></p>
+                            <p><b><font color="teal">${values.password}</font></b></p>
                         </td>
                         <td>
                             <p>${values.asal_sekolah}</p>
