@@ -51,7 +51,8 @@ CihuyDomReady(() => {
                         <td>
                             <p>${formattedTglDaftar}</p>
                         </td>
-                        <td>
+                        <td style="text-align: center; vertical-align: middle">
+                            <a href="#" class="btn btn-warning" role="button" style="color: white;">Detail</a>
                             <a href="#" class="btn btn-info" role="button" style="color: white;">Edit</a>
                             <a href="#" class="btn btn-danger" role="button">Hapus</a>
                         </td>
