@@ -36,6 +36,10 @@ fetch(UrlGetPendaftar)
                         <td>
                             <p>${values.tgl_daftar_mhs}</p>
                         </td>
+                        <td>
+                            <a href="#" class="btn btn-info" role="button" style="color: white;">Edit</a>
+                            <a href="#" class="btn btn-danger" role="button">Hapus</a>
+                        </td>
                     </tr>`;
 		});
 		// Tampilkan data pegawai ke dalam tabel
