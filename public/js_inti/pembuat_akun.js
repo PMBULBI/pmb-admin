@@ -40,7 +40,6 @@ CihuyDomReady(() => {
                         </td>
                         <td>
                             <p>${values.email_mhs}</p>
-                            <p>${values.username_admin}</p>
                             <p>${values.password}</p>
                         </td>
                         <td>
@@ -68,26 +67,6 @@ CihuyDomReady(() => {
     .catch(error => {
         console.log('error', error);
     });
-
-    // Fungsi untuk Menampilkan Data
-	function displayData(page) {
-		const baris = CihuyQuerySelector("#tablebody tr");
-		const mulaiindex = (page - 1) * itemPerPage;
-		const akhirindex = mulaiindex + itemPerPage;
-
-		for (let i = 0; i < baris.length; i++) {
-			if (i >= mulaiindex && i < akhirindex) {
-				baris[i].style.display = "table-row";
-			} else {
-				baris[i].style.display = "none";
-			}
-		}
-	}
-
-    // Fungsi untuk Update Pagination
-    function updatePagination() {
-        halamanSaatIni.textContent = `Halaman ${halamannow}`;
-    }
 
     // Button Pagination (Sebelumnya)
     buttonPreviousPage.addEventListener("click", () => {
