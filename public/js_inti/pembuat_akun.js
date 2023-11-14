@@ -1,5 +1,6 @@
 // Import library yang dibutuhkan
 import { UrlGetPendaftar } from "../controller/template.js";
+import { formatTwoDigits } from "../style/formatdate.js"
 
 // Untuk Get All Data Pendaftar
 fetch(UrlGetPendaftar)
@@ -9,6 +10,11 @@ fetch(UrlGetPendaftar)
 	.then((data) => {
 		let tableData = "";
 		data.data.map((values, index) => {
+
+        // Ubah format tanggal
+        const tglDaftar = new Date(values.tgl_daftar_mhs);
+        const formattedTglDaftar = `${formatTwoDigits(tglDaftar.getDate())}-${formatTwoDigits(tglDaftar.getMonth() + 1)}-${tglDaftar.getFullYear()} (${tglDaftar.toLocaleTimeString()})`;
+
 			// Manipulasi data pegawai dan masukkan ke dalam bentuk tabel
 			tableData += `
                         <tr>
@@ -34,7 +40,7 @@ fetch(UrlGetPendaftar)
                             <p>${values.provinsi_sekolah}</p>
                         </td>
                         <td>
-                            <p>${values.tgl_daftar_mhs}</p>
+                            <p>${formattedTglDaftar}</p>
                         </td>
                         <td>
                             <a href="#" class="btn btn-info" role="button" style="color: white;">Edit</a>
