@@ -1,6 +1,6 @@
 // Import library yang dibutuhkan
 import { UrlGetPendaftar } from "../controller/template.js";
-import { formatTwoDigits, formatTanggalWaktu } from "../style/formatdate.js"
+import { formatTanggalWaktu } from "../style/formatdate.js"
 import { CihuyDomReady, CihuyQuerySelector } from "https://c-craftjs.github.io/table/table.js";
 import { CihuyId } from "https://c-craftjs.github.io/element/element.js";
 
