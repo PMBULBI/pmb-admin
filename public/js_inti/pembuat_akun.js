@@ -51,14 +51,23 @@ CihuyDomReady(() => {
                             <p>${formattedTglDaftar}</p>
                         </td>
                         <td style="text-align: center; vertical-align: middle">
-                            <a href="#" class="btn btn-warning" role="button" style="color: white;">Detail</a>
-                            <a href="#" class="btn btn-info" role="button" style="color: white;">Edit</a>
-                            <a href="#" class="btn btn-danger" role="button">Hapus</a>
+                            <button type="button" class="btn btn-warning" style="color: white;" data-pembuat-akun=${values.id}>Detail</button>
+                            <button type="button" class="btn btn-info" style="color: white;" data-pembuat-akun=${values.id} >Edit</button>
+                            <button type="button" class="btn btn-danger" data-pembuat-akun=${values.id}>Hapus</button>
                         </td>
                     </tr>`;
         });
         // Tampilkan data pegawai ke dalam tabel
         document.getElementById("tablebody").innerHTML = tableData;
+
+        // Untuk Button Detail
+        const detailButton = document.querySelectorAll(".btn-warning");
+        detailButton.forEach(button => {
+            button.addEventListener('click', (event) => {
+                const id = event.target.getAttribute('data-pembuat-akun');
+                window.location.href = `inti/detail-pembuat-akun.html?id=${id}`;
+            });
+        });
 
         // Untuk Memunculkan Pagination Halamannya
         displayData(halamannow);
