@@ -1,6 +1,6 @@
 // Import library yang dibutuhkan
 import { UrlGetPendaftar } from "../controller/template.js";
-import { formatTwoDigits } from "../style/formatdate.js"
+import { formatTwoDigits, formatTanggalWaktu } from "../style/formatdate.js"
 import { CihuyDomReady, CihuyQuerySelector } from "https://c-craftjs.github.io/table/table.js";
 import { CihuyId } from "https://c-craftjs.github.io/element/element.js";
 
@@ -22,7 +22,7 @@ CihuyDomReady(() => {
         data.data.map((values, index) => {
         // Ubah format tanggal
         const tglDaftar = new Date(values.tgl_daftar_mhs);
-        const formattedTglDaftar = `${formatTwoDigits(tglDaftar.getDate())}-${formatTwoDigits(tglDaftar.getMonth() + 1)}-${tglDaftar.getFullYear()} (${tglDaftar.toLocaleTimeString()})`;
+        const formattedTglDaftar = formatTanggalWaktu(tglDaftar);
 
             // Manipulasi data pegawai dan masukkan ke dalam bentuk tabel
             tableData += `
