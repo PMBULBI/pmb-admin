@@ -1,7 +1,12 @@
 // Import library yang dibutuhkan
-import { UrlGetJalur } from "../controller/template.js";
+import { UrlGetJalur, UrlDeleteJalur } from "../controller/template.js";
 import { CihuyDomReady, CihuyQuerySelector } from "https://c-craftjs.github.io/table/table.js";
 import { CihuyId } from "https://c-craftjs.github.io/element/element.js";
+import { token } from "../controller/cookies.js";
+
+var header = new Headers();
+header.append("login", token);
+header.append("Content-Type", "application/json");
 
 // Get Data Jalur Pendaftaran
 CihuyDomReady(() => {
@@ -108,3 +113,65 @@ CihuyDomReady(() => {
 		}
 	});
 });
+
+// Delete Data Jalur Pendaftaran
+// Create function jalur pendaftaran
+document.getElementById("tablebody").addEventListener("click", (event) => {
+	const target = event.target;
+	if (target.classList.contains("btn-danger")) {
+	  const id_jalur = target.getAttribute("jalur-pendaftaran");
+	  if (id_jalur) {
+		// Display SweetAlert confirmation dialog
+		Swal.fire({
+		  title: 'Hapus Jalur Pendaftaran?',
+		  text: "Data tidak akan dapat mengembalikan ini!",
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Yes'
+		}).then((result) => {
+		  if (result.isConfirmed) {
+			// User confirmed, call the function to handle deletion
+			deleteData(id_jalur);
+		  }
+		});
+	  }
+	}
+  });
+  
+  // Function to delete data
+  function deleteData(id_jalur) {
+	const deleteUrl = UrlDeleteJalur + `?id=${id_jalur}`;
+	
+	fetch(deleteUrl, {
+	  method: "DELETE",
+	  headers: header
+	})
+	  .then((response) => response.json())
+	  .then((data) => {
+		// Handle successful deletion
+		console.log("Data deleted:", data);
+		// You might want to update the table or handle other UI updates here
+		
+		// Display success SweetAlert
+		Swal.fire({
+			title: 'Deleted!',
+			text: 'Jalur Pendaftaran Berhasil Dihapus.',
+			icon: 'success'
+		  }).then(() => {
+			// Reload the page after successful deletion
+			location.reload();
+		  });
+		})
+	  	.catch((error) => {
+			console.error("Error deleting data:", error);
+			
+			// Display error SweetAlert
+			Swal.fire(
+			'Error!',
+			'Jalur Pendaftaran Gagal Dihapus',
+			'error'
+			);
+		});
+  }
