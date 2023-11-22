@@ -57,16 +57,6 @@ CihuyDomReady(() => {
         });
         // Tampilkan data pegawai ke dalam tabel
         document.getElementById("tablebody").innerHTML = tableData;
-
-        // // Untuk Button Detail
-        // const detailButton = document.querySelectorAll(".btn-warning");
-        // detailButton.forEach(button => {
-        //     button.addEventListener('click', (event) => {
-        //         const id_jalur = event.target.getAttribute('jalur-pendaftaran');
-        //         window.location.href = `detail_jalur_pendaftaran.html?id=${id_jalur}`;
-        //     });
-        // });
-
         // Untuk Memunculkan Pagination Halamannya
         displayData(halamannow);
         updatePagination();
