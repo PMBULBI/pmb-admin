@@ -55,3 +55,37 @@ function isDataChanged(existingData, newData) {
 	);
 }
 
+// Fungsi untuk menampilkan alert konfirmasi perubahan data
+function showConfirmationAlert(data) {
+	Swal.fire({
+		title: 'Perubahan Jalur Pendaftaran',
+		text: "Apakah anda yakin ingin melakukan perubahan?",
+		icon: 'warning',
+		showCancelButton: true,
+		confirmButtonColor: '#3085d6',
+		cancelButtonColor: '#d33',
+		confirmButtonText: 'Yes',
+		cancelButtonText: 'No'
+	}).then((result) => {
+		if (result.isConfirmed) {
+			updateEmployeeData(data);
+			// Menampilkan Data Alert Success
+			Swal.fire({
+				icon: 'success',
+				title: 'Sukses!',
+				text: 'Jalur Pendaftaran Berhasil Diperbarui',
+				showConfirmButton: false,
+				timer: 1500
+			}).then(() => {
+				window.location.href = 'seluruh-karyawan.html';
+			});
+		} else {
+			// Menampilkan Data Alert Error
+			Swal.fire({
+				icon: 'error',
+				title: 'Oops...',
+				text: 'Jalur Pendaftaran Gagal Diperbarui!',
+			});
+		}
+	});
+}
