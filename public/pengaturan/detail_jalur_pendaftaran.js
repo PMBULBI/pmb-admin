@@ -3,34 +3,25 @@ import { UrlGetJalurById } from "../controller/template.js";
 // Get Data Jalur Pendaftaran By Id
 // Ambil terlebih dahulu id dari URL
 const urlParams = new URLSearchParams(window.location.search);
-const id_jalur = urlParams.get('id_jalur');
+const id_jalur = urlParams.get('id');
 
 document.addEventListener("DOMContentLoaded", function () {
-    // Pilih element by id
-    const jalurElement = document.getElementById("jalur");
-    const namaJalurElement = document.getElementById("nama_jalur");
-    const keteranganJalurElement = document.getElementById("keterangan_jalur");
-    const statusElement = document.getElementById("status");
-
+    // URL endpoint
+    const apiUrl = UrlGetJalurById;
     // Buat fungsi untuk tampilkan data
-    function fetchDataAndDisplay() {
-        fetch(UrlGetJalurById + `?id_jalur=${id_jalur}`)
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.code === 200 && data.success) {
-                    const jalurDetails = data.data;
+    fetch(apiUrl + `?id=${id_jalur}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Update nilai input pada formulir dengan data yang diterima
+                document.getElementById('jalur').value = data.data.jalur;
+                document.getElementById('nama_jalur').value = data.data.nama_jalur;
+                document.getElementById('keterangan_jalur').value = data.data.keterangan_jalur;
+            } else {
+                alert('Gagal mendapatkan data. Silakan coba lagi.');
+            }
+        })
+        .catch(error => console.error('Terjadi kesalahan:', error));
+});
 
-                    jalurElement.textContent = jalurDetails.jalur;
-                    namaJalurElement.textContent = jalurDetails.nama_jalur;
-                    keteranganJalurElement.textContent = jalurDetails.keterangan_jalur;
-                    statusElement.textContent = jalurDetails.status;
-                } else {
-                    console.error(data.status);
-                }
-            })
-            .catch((error) => {
-                console.error("Error fetching data : ", error);
-            })
-    }
-    fetchDataAndDisplay();
-})
+// Put Data Jalur Pendaftaran By Id
