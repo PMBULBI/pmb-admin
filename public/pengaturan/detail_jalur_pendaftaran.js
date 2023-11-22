@@ -89,3 +89,12 @@ function showConfirmationAlert(data) {
 		}
 	});
 }
+
+// Fungsi untuk menampilkan alert jika tidak ada perubahan pada data
+function showNoChangeAlert() {
+	Swal.fire({
+		icon: 'warning',
+		title: 'Oops...',
+		text : 'Tidak Ada Perubahan Data'
+	});
+}
