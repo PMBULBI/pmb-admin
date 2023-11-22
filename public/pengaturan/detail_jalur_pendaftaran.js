@@ -1,4 +1,4 @@
-import { UrlGetJalurById } from "../controller/template.js";
+import { UrlGetJalurById, UrlPutJalur } from "../controller/template.js";
 
 // Get Data Jalur Pendaftaran By Id
 // Ambil terlebih dahulu id dari URL
@@ -26,91 +26,56 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Put Data Jalur Pendaftaran By Id
 // Buat terlebih dahulu event listener Update
-document.addEventListener("DOMContentLoaded", function() {
-const updateButton = document.querySelector('#updateButton')
-updateButton.addEventListener('click', () => {
-    const jalurUpdate = document.getElementById('jalur').value;
-    const namaJalurUpdate = document.getElementById('nama_jalur').value;
-    const keteranganJalurUpdate = document.getElementById('keterangan_jalur').value;
-    const statusUpdate = document.getElementById('status').value;
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('updateButton').addEventListener('click', function () {
+        Swal.fire({
+            title: 'Perubahan Jalur Pendaftaran',
+            text: "Apakah anda yakin ingin melakukan perubahan?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const updatedData = {
+                    jalur: document.getElementById('jalur').value,
+                    nama_jalur: document.getElementById('nama_jalur').value,
+                    keterangan_jalur: document.getElementById('keterangan_jalur').value,
+                    status: document.getElementById('status').value
+                };
 
-    const updatedData = {
-        jalur : jalurUpdate,
-        nama_jalur : namaJalurUpdate,
-        keterangan_jalur : keteranganJalurUpdate,
-        status : statusUpdate
-    };
-
-    if (isDataChanged(data, updatedData)) {
-        showConfirmationAlert(updatedData);
-    } else {
-        showNoChangeAlert();
-    }
-})
-
-// Fungsi untuk membandingkan apakah ada perubahan pada data
-function isDataChanged(existingData, newData) {
-	return (
-		existingData.jalur !== newData.jalur ||
-		existingData.nama_jalur !== newData.nama_jalur ||
-		existingData.keterangan_jalur !== newData.keterangan_jalur ||
-        existingData.status != newData.status
-	);
-}
-
-// Fungsi untuk menampilkan alert konfirmasi perubahan data
-function showConfirmationAlert(data) {
-	Swal.fire({
-		title: 'Perubahan Jalur Pendaftaran',
-		text: "Apakah anda yakin ingin melakukan perubahan?",
-		icon: 'warning',
-		showCancelButton: true,
-		confirmButtonColor: '#3085d6',
-		cancelButtonColor: '#d33',
-		confirmButtonText: 'Yes',
-		cancelButtonText: 'No'
-	}).then((result) => {
-		if (result.isConfirmed) {
-			updateEmployeeData(data);
-			// Menampilkan Data Alert Success
-			Swal.fire({
-				icon: 'success',
-				title: 'Sukses!',
-				text: 'Jalur Pendaftaran Berhasil Diperbarui',
-				showConfirmButton: false,
-				timer: 1500
-			}).then(() => {
-				window.location.href = 'jalur_pendaftaran.html';
-			});
-		} else {
-			// Menampilkan Data Alert Error
-			Swal.fire({
-				icon: 'error',
-				title: 'Oops...',
-				text: 'Jalur Pendaftaran Gagal Diperbarui!',
-			});
-		}
-	});
-}
-
-// Fungsi untuk menampilkan alert jika tidak ada perubahan pada data
-function showNoChangeAlert() {
-	Swal.fire({
-		icon: 'warning',
-		title: 'Oops...',
-		text : 'Tidak Ada Perubahan Data'
-	});
-}
-
-// Untuk Update data ke data presensi
-function updateJalurPendaftaran(data) {
-	fetch(`https://komarbe.ulbi.ac.id/jalur/post?id=${id_jalur}`, {
-		method: "PATCH",
-		headers: header,
-		body: JSON.stringify(data)
-	})
-		.catch(error => {
-			console.error("Error saat melakukan PATCH data:", error);
-		});
-}
+                fetch(UrlPutJalur + `?id=${id_jalur}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(updatedData),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Add SweetAlert2 success alert
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Sukses!',
+                        text: 'Jalur Pendaftaran Berhasil Diperbarui',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        window.location.href = 'jalur_pendaftaran.html'
+                        console.log('Update successful:', data);
+                    })
+                })
+                .catch(error => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Jalur pendaftaran Gagal Diperbarui!',
+                    });
+                    console.error('Error updating data:', error);
+                });
+            }
+        });
+    });
 });
