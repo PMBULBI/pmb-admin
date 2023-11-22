@@ -26,6 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Put Data Jalur Pendaftaran By Id
 // Buat terlebih dahulu event listener Update
+document.addEventListener("DOMContentLoaded", function() {
 const updateButton = document.querySelector('#updateButton')
 updateButton.addEventListener('click', () => {
     const jalurUpdate = document.getElementById('jalur').value;
@@ -41,7 +42,9 @@ updateButton.addEventListener('click', () => {
     };
 
     if (isDataChanged(data, updatedData)) {
-        
+        showConfirmationAlert(updatedData);
+    } else {
+        showNoChangeAlert();
     }
 })
 
@@ -77,7 +80,7 @@ function showConfirmationAlert(data) {
 				showConfirmButton: false,
 				timer: 1500
 			}).then(() => {
-				window.location.href = 'seluruh-karyawan.html';
+				window.location.href = 'jalur_pendaftaran.html';
 			});
 		} else {
 			// Menampilkan Data Alert Error
@@ -101,7 +104,7 @@ function showNoChangeAlert() {
 
 // Untuk Update data ke data presensi
 function updateJalurPendaftaran(data) {
-	fetch(`https://hris_backend.ulbi.ac.id/presensi/datakaryawan/updatedata/${_id}`, {
+	fetch(`https://komarbe.ulbi.ac.id/jalur/post?id=${id_jalur}`, {
 		method: "PATCH",
 		headers: header,
 		body: JSON.stringify(data)
@@ -110,3 +113,4 @@ function updateJalurPendaftaran(data) {
 			console.error("Error saat melakukan PATCH data:", error);
 		});
 }
+});
