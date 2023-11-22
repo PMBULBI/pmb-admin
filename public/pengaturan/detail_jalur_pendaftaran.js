@@ -25,3 +25,33 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // Put Data Jalur Pendaftaran By Id
+// Buat terlebih dahulu event listener Update
+const updateButton = document.querySelector('#updateButton')
+updateButton.addEventListener('click', () => {
+    const jalurUpdate = document.getElementById('jalur').value;
+    const namaJalurUpdate = document.getElementById('nama_jalur').value;
+    const keteranganJalurUpdate = document.getElementById('keterangan_jalur').value;
+    const statusUpdate = document.getElementById('status').value;
+
+    const updatedData = {
+        jalur : jalurUpdate,
+        nama_jalur : namaJalurUpdate,
+        keterangan_jalur : keteranganJalurUpdate,
+        status : statusUpdate
+    };
+
+    if (isDataChanged(data, updatedData)) {
+        
+    }
+})
+
+// Fungsi untuk membandingkan apakah ada perubahan pada data
+function isDataChanged(existingData, newData) {
+	return (
+		existingData.jalur !== newData.jalur ||
+		existingData.nama_jalur !== newData.nama_jalur ||
+		existingData.keterangan_jalur !== newData.keterangan_jalur ||
+        existingData.status != newData.status
+	);
+}
+
