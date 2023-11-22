@@ -6,25 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
       rel="shortcut icon"
-      href="assets/images/favicon.svg"
+      href="../assets/images/favicon.svg"
       type="image/x-icon"
     />
     <title>PMB ULBI</title>
 
     <!-- ========== All CSS files linkup ========= -->
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="assets/css/lineicons.css" />
-    <link rel="stylesheet" href="assets/css/materialdesignicons.min.css" />
-    <link rel="stylesheet" href="assets/css/fullcalendar.css" />
-    <link rel="stylesheet" href="assets/css/fullcalendar.css" />
-    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../assets/css/lineicons.css" />
+    <link rel="stylesheet" href="../assets/css/materialdesignicons.min.css" />
+    <link rel="stylesheet" href="../assets/css/fullcalendar.css" />
+    <link rel="stylesheet" href="../assets/css/fullcalendar.css" />
+    <link rel="stylesheet" href="../assets/css/main.css" />
   </head>
   <body>
     <!-- ======== sidebar-nav start =========== -->
     <aside class="sidebar-nav-wrapper">
       <div class="navbar-logo">
         <a href="index.html">
-          <img src="assets/images/logo/logo_ulbi.png" alt="logo" />
+          <img src="../assets/images/logo/logo_ulbi.png" alt="logo" />
         </a>
       </div>
       <nav class="sidebar-nav">
@@ -434,7 +434,7 @@
                         <h6>John Doe</h6>
                         <div class="image">
                           <img
-                            src="assets/images/profile/profile-image.png"
+                            src="../assets/images/profile/profile-image.png"
                             alt=""
                           />
                           <span class="status"></span>
@@ -484,7 +484,7 @@
             <div class="row align-items-center">
               <div class="col-md-6">
                 <div class="title mb-30">
-                  <h2>Calon Mahasiswa</h2>
+                  <h2>Jalur Pendaftaran</h2>
                 </div>
               </div>
             </div>
@@ -492,7 +492,47 @@
           </div>
           <!-- ========== title-wrapper end ========== -->
           <div class="row">
-
+            <div class="col-lg-12">
+              <div class="card-style mb-30">
+                <div class="table-wrapper table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr style="text-align: center; vertical-align: middle">
+                        <th><h6>No</h6></th>
+                        <th><h6>Jalur</h6></th>
+                        <th><h6>Keterangan</h6></th>
+                        <th><h6>Status</h6></th>
+                        <th><h6>Action</h6></th>
+                      </tr>
+                      <!-- end table row-->
+                    </thead>
+                    <tbody id="tablebody">
+                      <!-- JS Data -->
+                      <!-- end table row -->
+                    </tbody>
+                  </table>
+                  <!-- end table -->
+                </div>
+                <!-- start Button Pagination -->
+                <div class="row">
+                  <div class="col-md-6">
+                  <div class="pagination">
+                    <button id="prevPageBtn" class="btn btn-primary">
+                    Previous
+                    </button>
+                    <span id="currentPage" class="mx-3 mt-2
+                    ">Page 1</span>
+                    <button id="nextPageBtn" class="btn btn-primary">
+                    Next
+                    </button>
+                  </div>
+                  </div>
+                </div>
+                <!-- end Button Pagination -->
+              </div>
+              <!-- end card -->
+            </div>
+            <!-- end col -->
           </div>
           <!-- End Row -->
         </div>
@@ -529,14 +569,15 @@
     <!-- ======== main-wrapper end =========== -->
 
     <!-- ========= All Javascript files linkup ======== -->
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/Chart.min.js"></script>
-    <script src="assets/js/dynamic-pie-chart.js"></script>
-    <script src="assets/js/moment.min.js"></script>
-    <script src="assets/js/fullcalendar.js"></script>
-    <script src="assets/js/jvectormap.min.js"></script>
-    <script src="assets/js/world-merc.js"></script>
-    <script src="assets/js/polyfill.js"></script>
-    <script src="assets/js/main.js"></script>
+    <script src="../public/pengaturan/jalur_pendaftaran.js" type="module"></script>
+    <script src="../assets/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/Chart.min.js"></script>
+    <script src="../assets/js/dynamic-pie-chart.js"></script>
+    <script src="../assets/js/moment.min.js"></script>
+    <script src="../assets/js/fullcalendar.js"></script>
+    <script src="../assets/js/jvectormap.min.js"></script>
+    <script src="../assets/js/world-merc.js"></script>
+    <script src="../assets/js/polyfill.js"></script>
+    <script src="../assets/js/main.js"></script>
   </body>
 </html>
