@@ -16,16 +16,16 @@ function addJalurPendaftaran(postData) {
     .then(response => response.json())
     .then(data => {
       if (data.success) {
-        // Display success SweetAlert
+        // Alert untuk Success Post jalur pendaftaran
         Swal.fire({
           icon: 'success',
           title: 'Jalur Pendaftaran Berhasil Ditambahkan!',
         }).then(() => {
-          // Refresh the page after successful addition
+          // Direct ke halaman jalur pendaftaran
           window.location.href = 'jalur_pendaftaran.html';
         });
       } else {
-        // Display error SweetAlert
+        // Alert untuk Gagal Post jalur pendaftaran
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
@@ -65,7 +65,7 @@ tambahButton.addEventListener('click', () => {
     status: statusInput
   };
   
-  // Display SweetAlert for confirmation
+  // Alert konfirmasi untuk post
   Swal.fire({
     title: 'Tambah Jalur',
     text: 'Anda Yakin Menambah Jalur Pendaftaran?',
