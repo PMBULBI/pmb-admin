@@ -3,6 +3,7 @@ import { UrlGetJalur } from "../controller/template.js";
 import { CihuyDomReady, CihuyQuerySelector } from "https://c-craftjs.github.io/table/table.js";
 import { CihuyId } from "https://c-craftjs.github.io/element/element.js";
 
+// Get Data Jalur Pendaftaran
 CihuyDomReady(() => {
     const tablebody = CihuyId("tablebody");
     const buttonPreviousPage = CihuyId("prevPageBtn");
@@ -41,8 +42,8 @@ CihuyDomReady(() => {
 
                         </td>
                         <td style="text-align: center; vertical-align: middle">
-                            <button type="button" class="btn btn-info" style="color: white;" data-pembuat-akun=${values.id} >Edit</button>
-                            <button type="button" class="btn btn-danger" data-pembuat-akun=${values.id}>Hapus</button>
+                            <button type="button" class="btn btn-warning" style="color: white;" jalur-pendaftaran=${values.id_jalur} >Edit</button>
+                            <button type="button" class="btn btn-danger" jalur-pendaftaran=${values.id_jalur}>Hapus</button>
                         </td>
                     </tr>`;
         });
@@ -53,8 +54,8 @@ CihuyDomReady(() => {
         const detailButton = document.querySelectorAll(".btn-warning");
         detailButton.forEach(button => {
             button.addEventListener('click', (event) => {
-                const id = event.target.getAttribute('data-pembuat-akun');
-                window.location.href = `inti/detail-pembuat-akun.html?id=${id}`;
+                const id_jalur = event.target.getAttribute('jalur-pendaftaran');
+                window.location.href = `detail_jalur_pendaftaran.html?id_jalur=${id_jalur}`;
             });
         });
 
@@ -107,4 +108,3 @@ CihuyDomReady(() => {
 		}
 	});
 });
-
