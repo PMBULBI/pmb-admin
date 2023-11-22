@@ -493,51 +493,56 @@
           <!-- ========== title-wrapper end ========== -->
           <div class="row">
             <div class="col-lg-12">
-              <div class="card-style mb-30">
-                <label class="mt-1"><b>Data Jalur Pendaftaran</b></label>
+                <div class="card-style mb-30">
+                    <label class="mt-1"><b>Data Jalur Pendaftaran</b></label>
                     <hr>
                     <div class="input-style-1">
-                      <label>Jalur</label>
-                      <input
-                        type="text"
-                        id="jalur"
-                        placeholder=""
-                        value=""
-                      />
+                        <label>Jalur</label>
+                        <input
+                            type="text"
+                            id="jalur"
+                            placeholder=""
+                            value=""
+                        />
                     </div>
                     <div class="input-style-1">
-                      <label>Nama Jalur</label>
-                      <input
-                        type="text"
-                        id="nama_jalur"
-                        placeholder=""
-                        value=""
-                      />
+                        <label>Nama Jalur</label>
+                        <input
+                            type="text"
+                            id="nama_jalur"
+                            placeholder=""
+                            value=""
+                        />
                     </div>
                     <div class="input-style-1">
-                      <label>Keterangan Jalur</label>
-                      <input
-                        type="text"
-                        id="keterangan_jalur"
-                        placeholder=""
-                        value=""
-                      />
+                        <label>Keterangan Jalur</label>
+                        <input
+                            type="text"
+                            id="keterangan_jalur"
+                            placeholder=""
+                            value=""
+                        />
                     </div>
                     <div class="select-style-1">
-                      <label>Status</label>
-                      <div class="select-position">
-                        <select class="light-bg">
-                          <option value=""> - Pilih Status - </option>
-                          <option value="aktif">aktif</option>
-                          <option value="nonaktif">nonaktif</option>
-                        </select>
-                      </div>
+                        <label>Status</label>
+                        <div class="select-position">
+                            <select class="light-bg" id="status">
+                                <option value=""> - Pilih Status - </option>
+                                <option value="aktif">aktif</option>
+                                <option value="nonaktif">nonaktif</option>
+                            </select>
+                        </div>
                     </div>
-              </div>
-              <!-- end card -->
+                </div>
+                <!-- end card -->
             </div>
-            <!-- end col -->
-          </div>
+        </div>
+          <div class="row">
+            <div class="col-lg-12 d-flex justify-content-end">
+                <button type="button" class="main-btn primary-btn-outline btn-hover mr-5" id="updateButton">Update Jalur Pendaftaran</button>
+                <a href="jalur_pendaftaran.html" class="main-btn primary-btn btn-hover">Kembali</a>
+            </div>
+        </div>
           <!-- End Row -->
         </div>
         <!-- end container -->
@@ -575,6 +580,7 @@
     <!-- ========= All Javascript files linkup ======== -->
     <script src="../public/pengaturan/detail_jalur_pendaftaran.js" type="module"></script>
     <script src="../assets/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="../assets/js/Chart.min.js"></script>
     <script src="../assets/js/dynamic-pie-chart.js"></script>
     <script src="../assets/js/moment.min.js"></script>
