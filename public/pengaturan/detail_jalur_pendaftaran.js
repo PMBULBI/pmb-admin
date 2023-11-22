@@ -98,3 +98,15 @@ function showNoChangeAlert() {
 		text : 'Tidak Ada Perubahan Data'
 	});
 }
+
+// Untuk Update data ke data presensi
+function updateJalurPendaftaran(data) {
+	fetch(`https://hris_backend.ulbi.ac.id/presensi/datakaryawan/updatedata/${_id}`, {
+		method: "PATCH",
+		headers: header,
+		body: JSON.stringify(data)
+	})
+		.catch(error => {
+			console.error("Error saat melakukan PATCH data:", error);
+		});
+}
