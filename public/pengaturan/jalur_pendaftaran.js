@@ -55,7 +55,7 @@ CihuyDomReady(() => {
         detailButton.forEach(button => {
             button.addEventListener('click', (event) => {
                 const id_jalur = event.target.getAttribute('jalur-pendaftaran');
-                window.location.href = `detail_jalur_pendaftaran.html?id_jalur=${id_jalur}`;
+                window.location.href = `detail_jalur_pendaftaran.html?id=${id_jalur}`;
             });
         });
 
