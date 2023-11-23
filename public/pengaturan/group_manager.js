@@ -1,3 +1,8 @@
+// Import library yang dibutuhkan
+import { UrlGetAdminLevel } from "../controller/template.js";
+import { CihuyDomReady, CihuyQuerySelector } from "https://c-craftjs.github.io/table/table.js";
+import { CihuyId } from "https://c-craftjs.github.io/element/element.js";
+
 // Get Data User Manager
 // Membuat Fungsi Pagination dan Tabel
 CihuyDomReady(() => {
@@ -9,41 +14,23 @@ CihuyDomReady(() => {
     let halamannow = 1;
 
     // Untuk Get All Data Pendaftar
-    fetch(UrlGetAdmin)
+    fetch(UrlGetAdminLevel)
     .then((result) => {
         return result.json();
     })
     .then((data) => {
         let tableData = "";
-        data.data.map((values, index) => {
+        data.data.map((values) => {
             // Manipulasi data dan masukkan ke dalam bentuk tabel
             tableData += `
                         <tr style="text-align: center; vertical-align: middle">
                         <td>
                         <div class="min-width">
-                            <p>${index + 1}</p>
+                            <p>${values.id_level}</p>
                         </div>
                         </td>
                         <td class="min-width">
-                            <p>${values.nama_admin}</p>
-                        </td>
-                        <td class="min-width">
-                            <p>${values.username}</p>
-                        </td>
-                        <td class="min-width">
-                            <p>${values.email}</p>
-                        </td>
-                        <td class="min-width">
-                            <p>${values.no_hp}</p>
-                        </td>
-                        <td class="min-width">
-                            <p>${values.password}</p>
-                        </td>
-                        <td class="min-width">
-                            <p>${values.aktif}</p>
-                        </td>
-                        <td class="min-width">
-                            <p>${values.level}</p>
+                            <p>${values.nama_level}</p>
                         </td>
                         <td style="text-align: center; vertical-align: middle">
                             <button type="button" class="btn btn-warning" style="color: white;" user-manager-id=${values.id_admin} data-bs-toggle="modal" data-bs-target="#update-user">Edit</button>
@@ -53,33 +40,6 @@ CihuyDomReady(() => {
         });
         // Tampilkan data pegawai ke dalam tabel
         document.getElementById("tablebody").innerHTML = tableData;
-
-        // Untuk Listener Button Delete
-        const removeButtons = document.querySelectorAll(".btn-danger");
-        removeButtons.forEach(removeButton => {
-            removeButton.addEventListener("click", () => {
-                const userId = removeButton.getAttribute('user-manager-id');
-                if (userId) {
-                    deleteUserManager(userId);
-                } else {
-                    console.error("Id User Manager Tidak Ditemukan.");
-                }
-            });
-        });
-
-        // Untuk Listener Button Edit
-        const updateButtons = document.querySelectorAll(".btn-warning");
-        updateButtons.forEach(updateButton => {
-            updateButton.addEventListener("click", () => {
-                const userId = updateButton.getAttribute('user-manager-id');
-                if (userId) {
-                    updateUserManager(userId);
-                } else {
-                    console.error("Id User Manager Tidak Ditemukan.")
-                }
-            })
-        })
-
         // Untuk Memunculkan Pagination Halamannya
         displayData(halamannow);
         updatePagination();
