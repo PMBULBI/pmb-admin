@@ -61,6 +61,7 @@ CihuyDomReady(() => {
         });
         // Tampilkan data pegawai ke dalam tabel
         document.getElementById("tablebody").innerHTML = tableData;
+
         // Untuk Listener Button Delete
         const removeButtons = document.querySelectorAll(".btn-danger");
         removeButtons.forEach(removeButton => {
@@ -73,6 +74,20 @@ CihuyDomReady(() => {
                 }
             });
         });
+
+        // Untuk Listener Button Edit
+        const updateButtons = document.querySelectorAll(".btn-warning");
+        updateButtons.forEach(updateButton => {
+            updateButton.addEventListener("click", () => {
+                const userId = updateButton.getAttribute('user-manager-id');
+                if (userId) {
+                    updateUserManager(userId);
+                } else {
+                    console.error("Id User Manager Tidak Ditemukan.")
+                }
+            })
+        })
+
         // Untuk Memunculkan Pagination Halamannya
         displayData(halamannow);
         updatePagination();
