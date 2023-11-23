@@ -4,6 +4,8 @@ import { UrlGetAdmin, UrlDeleteAdmin, UrlGetAdminById } from "../controller/temp
 import { CihuyDomReady, CihuyQuerySelector } from "https://c-craftjs.github.io/table/table.js";
 import { CihuyId } from "https://c-craftjs.github.io/element/element.js";
 import { CihuyGetCookie } from "https://c-craftjs.github.io/cookies/cookies.js";
+
+// Untuk Get Token
 const token = CihuyGetCookie("login");
 
 // Get Data User Manager
@@ -54,8 +56,8 @@ CihuyDomReady(() => {
                             <p>${values.level}</p>
                         </td>
                         <td style="text-align: center; vertical-align: middle">
-                            <button type="button" class="btn btn-warning" style="color: white;" user-manager-id=${values.id_jalur} data-bs-toggle="modal" data-bs-target="#update-user">Edit</button>
-                            <button type="button" class="btn btn-danger" user-manager-id=${values.id_jalur}>Hapus</button>
+                            <button type="button" class="btn btn-warning" style="color: white;" user-manager-id=${values.id_admin} data-bs-toggle="modal" data-bs-target="#update-user">Edit</button>
+                            <button type="button" class="btn btn-danger" user-manager-id=${values.id_admin}>Hapus</button>
                         </td>
                     </tr>`;
         });
