@@ -245,5 +245,30 @@ function updateUserManager(idUser) {
             document.getElementById("update-user")
         );
         modalUpdate.show();
+
+        // Untuk Simpan Perubahan Ketika Update Data
+        const updateButtonModal = document.getElementById("updateDataButton");
+        updateButtonModal.addEventListener("click", function () {
+            // Ambil value setiap elemen
+            const namaUserBaru = document.getElementById("nama-update").value;
+            const usernameBaru = document.getElementById("username-update").value;
+            const emailBaru = document.getElementById("email-update").value;
+            const noHpBaru = document.getElementById("no_hp-update").value;
+            const passwordBaru = document.getElementById("password-update").value;
+            const aktifBaru = document.getElementById("aktif-baru").value;
+            const levelBaru = document.getElementById("level-update").value;
+
+            const dataUserToUpdate = {
+                nama_admin : namaUserBaru,
+                username : usernameBaru,
+                email : emailBaru,
+                no_hp : noHpBaru,
+                password : passwordBaru,
+                aktif : aktifBaru,
+                level : levelBaru,
+            }
+
+
+        })
     })
 }
