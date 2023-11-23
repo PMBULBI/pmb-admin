@@ -1,9 +1,12 @@
 // Import library yang dibutuhkan
-import { UrlGetAdmin} from "../controller/template.js";
+import { CihuyDataAPI, CihuyDeleteAPI } from "https://c-craftjs.github.io/simpelbi/api.js";
+import { UrlGetAdmin, UrlDeleteAdmin, UrlGetAdminById } from "../controller/template.js";
 import { CihuyDomReady, CihuyQuerySelector } from "https://c-craftjs.github.io/table/table.js";
 import { CihuyId } from "https://c-craftjs.github.io/element/element.js";
+import { CihuyGetCookie } from "https://c-craftjs.github.io/cookies/cookies.js";
+const token = CihuyGetCookie("login");
 
-// Get Data Jalur Pendaftaran
+// Get Data User Manager
 // Membuat Fungsi Pagination dan Tabel
 CihuyDomReady(() => {
     const tablebody = CihuyId("tablebody");
@@ -51,10 +54,20 @@ CihuyDomReady(() => {
                             <p>${values.level}</p>
                         </td>
                         <td style="text-align: center; vertical-align: middle">
-                            <button type="button" class="btn btn-warning" style="color: white;" jalur-pendaftaran=${values.id_jalur} data-bs-toggle="modal" data-bs-target="#update-user">Edit</button>
-                            <button type="button" class="btn btn-danger" jalur-pendaftaran=${values.id_jalur}>Hapus</button>
+                            <button type="button" class="btn btn-warning" style="color: white;" user-manager-id=${values.id_jalur} data-bs-toggle="modal" data-bs-target="#update-user">Edit</button>
+                            <button type="button" class="btn btn-danger" user-manager-id=${values.id_jalur}>Hapus</button>
                         </td>
                     </tr>`;
+        // Untuk Listener Button Delete
+        const removeButton = document.querySelectorAll(".btn-danger");
+        removeButton.addEventListener("click", () => {
+            const userId = removeButton.getAttribute('user-manager-id');
+            if (userId) {
+                deleteUserManager(userId);
+            } else {
+                console.error("Id User Manager Tidak Ditemukan.");
+            }
+        });
         });
         // Tampilkan data pegawai ke dalam tabel
         document.getElementById("tablebody").innerHTML = tableData;
@@ -107,3 +120,69 @@ CihuyDomReady(() => {
 		}
 	});
 });
+
+// Delete Data User Manager
+function deleteUserManager(idUser) {
+    Swal.fire({
+        title: "Apakah Anda yakin ingin menghapus User Manager?",
+        text: "Penghapusan user manager akan permanen.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Ya, Hapus",
+        cancelButtonText: "Tidak, Batal",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const apiUrlGetUserById = UrlGetAdminById + `?id=${idUser}`;
+    
+          // Lakukan permintaan GET untuk mengambil admin berdasarkan ID admin
+          CihuyDataAPI(apiUrlGetUserById, token, (error, response) => {
+            if (error) {
+              console.error("Terjadi kesalahan saat mengambil admin:", error);
+            } else {
+              const userData = response.data;
+              if (userData) {
+                // Dapatkan ID admin dari data yang diterima
+                const userId = userData.id_admin;
+    
+                // Buat URL untuk menghapus admin berdasarkan ID admin yang telah ditemukan
+                const apiUrlAdminDelete = UrlDeleteAdmin + `?id=${userId}`;
+    
+                // Lakukan permintaan DELETE untuk menghapus admin
+                CihuyDeleteAPI(
+                  apiUrlAdminDelete,
+                  token,
+                  (deleteError, deleteData) => {
+                    if (deleteError) {
+                      console.error(
+                        "Terjadi kesalahan saat menghapus admin:",
+                        deleteError
+                      );
+                      Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Terjadi kesalahan saat menghapus admin!",
+                      });
+                    } else {
+                      console.log("Admin berhasil dihapus:", deleteData);
+                      Swal.fire({
+                        icon: "success",
+                        title: "Sukses!",
+                        text: "Admin berhasil dihapus.",
+                        showConfirmButton: false,
+                        timer: 1500,
+                      }).then(() => {
+                        window.location.reload();
+                      });
+                    }
+                  }
+                );
+              } else {
+                console.error("Data admin tidak ditemukan.");
+              }
+            }
+          });
+        } else {
+          Swal.fire("Dibatalkan", "Penghapusan admin dibatalkan.", "info");
+        }
+      });
+}
