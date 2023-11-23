@@ -223,5 +223,25 @@ function getUserManagerById(idUser, callback) {
 // Update Data User Manager
 // Buat fungsi updatenya beserta alertnya terlebih dahulu
 function updateUserManager(idUser) {
-    get
+    getUserManagerById(idUser, (error, userData) => {
+        if (error) {
+            console.error("Gagal mengambil data user manager : ", error);
+            return;
+        }
+
+        // Mengisi formulir update dengan data user manager yang diperoleh
+        document.getElementById("nama-update").value = userData.nama_admin;
+        document.getElementById("username-update").value = userData.username;
+        document.getElementById("email-update").value = userData.email;
+        document.getElementById("no_hp-update").value = userData.no_hp;
+        document.getElementById("password-update").value = userData.password;
+        document.getElementById("aktif-update").value = userData.aktif;
+        document.getElementById("level-update").value = userData.level;
+
+        // Menampilkan modal update
+        const modalUpdate = new bootstrap.Modal(
+            document.getElementById("update-user")
+        );
+        modalUpdate.show();
+    })
 }
