@@ -55,14 +55,20 @@ CihuyDomReady(() => {
         // Tampilkan data pegawai ke dalam tabel
         document.getElementById("tablebody").innerHTML = tableData;
 
-        // Untuk Button Detail
-        const detailButton = document.querySelectorAll(".btn-warning");
-        detailButton.forEach(button => {
-            button.addEventListener('click', (event) => {
-                const id_jalur = event.target.getAttribute('jalur-pendaftaran');
-                window.location.href = `detail_jalur_pendaftaran.html?id=${id_jalur}`;
+        // Untuk Listener Button Delete
+        const removeButtons = document.querySelectorAll(".btn-danger");
+        removeButtons.forEach(removeButton => {
+            removeButton.addEventListener("click", () => {
+                const jalurId = removeButton.getAttribute('jalur-pendaftaran');
+                if (jalurId) {
+                    deleteUserManager(jalurId);
+                } else {
+                    console.error("Id Jalur Pendaftaran Tidak Ditemukan.");
+                }
             });
         });
+
+
 
         // Untuk Memunculkan Pagination Halamannya
         displayData(halamannow);
