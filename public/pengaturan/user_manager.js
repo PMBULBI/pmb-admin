@@ -139,6 +139,7 @@ CihuyDomReady(() => {
 });
 
 // Delete Data User Manager
+// Buat Fungsi Deletenya terlebih dahulu dengan Alertnya
 function deleteUserManager(idUser) {
     Swal.fire({
         title: "Apakah Anda yakin ingin menghapus User Manager?",
@@ -202,4 +203,25 @@ function deleteUserManager(idUser) {
           Swal.fire("Dibatalkan", "Penghapusan user dibatalkan.", "info");
         }
       });
+}
+
+// Get Data User Manager By Id
+function getUserManagerById(idUser, callback) {
+    const apiUrlGetUserManagerById = UrlGetAdminById + `?id=${idUser}`;
+
+    CihuyDataAPI(apiUrlGetUserManagerById, token, (error, response) => {
+        if (error) {
+            console.error("Terjadi kesalahan saat mengambil data user manager : ", error);
+            callback(error, null);
+        } else {
+            const userData = response.data;
+            callback(null, userData);
+        }
+    });
+}
+
+// Update Data User Manager
+// Buat fungsi updatenya beserta alertnya terlebih dahulu
+function updateUserManager(idUser) {
+    get
 }
