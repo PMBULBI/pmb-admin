@@ -2,7 +2,10 @@
 import { UrlGetJalur, UrlDeleteJalur, UrlGetJalurById } from "../controller/template.js";
 import { CihuyDomReady, CihuyQuerySelector } from "https://c-craftjs.github.io/table/table.js";
 import { CihuyId } from "https://c-craftjs.github.io/element/element.js";
-import { token } from "../controller/cookies.js";
+import { CihuyGetCookie } from "https://c-craftjs.github.io/cookies/cookies.js";
+
+// Untuk Get Token
+const token = CihuyGetCookie("login");
 
 var header = new Headers();
 header.append("login", token);
