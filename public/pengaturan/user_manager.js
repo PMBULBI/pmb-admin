@@ -269,7 +269,7 @@ function updateUserManager(idUser) {
             }
 
             // Hide modal ketika sudah selesai isi
-            $("#user-update").modal("hide");
+            $("#update-user").modal("hide");
 
             // Tampilkan SweetAlert konfirmasi sebelum mengirim permintaan
             Swal.fire({
