@@ -58,19 +58,21 @@ CihuyDomReady(() => {
                             <button type="button" class="btn btn-danger" user-manager-id=${values.id_jalur}>Hapus</button>
                         </td>
                     </tr>`;
-        // Untuk Listener Button Delete
-        const removeButton = document.querySelectorAll(".btn-danger");
-        removeButton.addEventListener("click", () => {
-            const userId = removeButton.getAttribute('user-manager-id');
-            if (userId) {
-                deleteUserManager(userId);
-            } else {
-                console.error("Id User Manager Tidak Ditemukan.");
-            }
-        });
         });
         // Tampilkan data pegawai ke dalam tabel
         document.getElementById("tablebody").innerHTML = tableData;
+        // Untuk Listener Button Delete
+        const removeButtons = document.querySelectorAll(".btn-danger");
+        removeButtons.forEach(removeButton => {
+            removeButton.addEventListener("click", () => {
+                const userId = removeButton.getAttribute('user-manager-id');
+                if (userId) {
+                    deleteUserManager(userId);
+                } else {
+                    console.error("Id User Manager Tidak Ditemukan.");
+                }
+            });
+        });
         // Untuk Memunculkan Pagination Halamannya
         displayData(halamannow);
         updatePagination();
@@ -137,7 +139,7 @@ function deleteUserManager(idUser) {
           // Lakukan permintaan GET untuk mengambil admin berdasarkan ID admin
           CihuyDataAPI(apiUrlGetUserById, token, (error, response) => {
             if (error) {
-              console.error("Terjadi kesalahan saat mengambil admin:", error);
+              console.error("Terjadi kesalahan saat mengambil user :", error);
             } else {
               const userData = response.data;
               if (userData) {
@@ -154,20 +156,20 @@ function deleteUserManager(idUser) {
                   (deleteError, deleteData) => {
                     if (deleteError) {
                       console.error(
-                        "Terjadi kesalahan saat menghapus admin:",
+                        "Terjadi kesalahan saat menghapus user :",
                         deleteError
                       );
                       Swal.fire({
                         icon: "error",
                         title: "Oops...",
-                        text: "Terjadi kesalahan saat menghapus admin!",
+                        text: "Terjadi kesalahan saat menghapus user!",
                       });
                     } else {
                       console.log("Admin berhasil dihapus:", deleteData);
                       Swal.fire({
                         icon: "success",
                         title: "Sukses!",
-                        text: "Admin berhasil dihapus.",
+                        text: "User Manager berhasil dihapus.",
                         showConfirmButton: false,
                         timer: 1500,
                       }).then(() => {
@@ -177,12 +179,12 @@ function deleteUserManager(idUser) {
                   }
                 );
               } else {
-                console.error("Data admin tidak ditemukan.");
+                console.error("Data user tidak ditemukan.");
               }
             }
           });
         } else {
-          Swal.fire("Dibatalkan", "Penghapusan admin dibatalkan.", "info");
+          Swal.fire("Dibatalkan", "Penghapusan user dibatalkan.", "info");
         }
       });
 }
