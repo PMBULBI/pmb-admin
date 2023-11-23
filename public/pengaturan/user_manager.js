@@ -1,6 +1,6 @@
 // Import library yang dibutuhkan
-import { CihuyDataAPI, CihuyDeleteAPI } from "https://c-craftjs.github.io/simpelbi/api.js";
-import { UrlGetAdmin, UrlDeleteAdmin, UrlGetAdminById } from "../controller/template.js";
+import { CihuyDataAPI, CihuyDeleteAPI, CihuyUpdateApi } from "https://c-craftjs.github.io/simpelbi/api.js";
+import { UrlGetAdmin, UrlDeleteAdmin, UrlGetAdminById, UrlPutAdmin } from "../controller/template.js";
 import { CihuyDomReady, CihuyQuerySelector } from "https://c-craftjs.github.io/table/table.js";
 import { CihuyId } from "https://c-craftjs.github.io/element/element.js";
 import { CihuyGetCookie } from "https://c-craftjs.github.io/cookies/cookies.js";
@@ -268,7 +268,55 @@ function updateUserManager(idUser) {
                 level : levelBaru,
             }
 
+            // Hide modal ketika sudah selesai isi
+            $("#user-update").modal("hide");
 
+            // Tampilkan SweetAlert konfirmasi sebelum mengirim permintaan
+            Swal.fire({
+                title: "Update Data User Manager?",
+                text: "Apakah Anda yakin ingin mengupdate data user ini?",
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonText: "Ya, Update",
+                cancelButtonText: "Batal",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                // Kirim permintaan PUT/UPDATE ke server dengan gambar
+                updateRequestData(idUser, dataUserToUpdate, modalUpdate);
+                }
+            });
         })
+    })
+}
+
+// Fungsi untuk Melakukan Updatenya
+function updateRequestData(idUser, dataUserToUpdate, modalUpdate) {
+    const apiUrlUserUpdate = UrlPutAdmin + `?id=${idUser}`;
+
+    CihuyUpdateApi(apiUrlUserUpdate, token, dataUserToUpdate, (error, responseText) => {
+        if (error) {
+            console.error("Terjadi kesalahan saat update user manager : ", error);
+            // Tampilkan Alert Kesalahan
+            Swal.fire({
+                icon : "error",
+                title : "Oops...",
+                text : "Terjadi kesalahan saat update user manager.",
+            });
+        } else {
+            console.log("Respon sukses:", responseText);
+            // Menutup modal edit
+            modalUpdate.hide();
+            // Menampilkan pesan sukses
+            Swal.fire({
+              icon: "success",
+              title: "Sukses!",
+              text: "Data User berhasil diperbarui.",
+              showConfirmButton: false,
+              timer: 1500,
+            }).then(() => {
+              // Refresh halaman atau lakukan tindakan lain jika diperlukan
+              window.location.reload();
+            });
+        }
     })
 }
