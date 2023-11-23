@@ -68,7 +68,18 @@ CihuyDomReady(() => {
             });
         });
 
-
+        // Untuk Listener Button Edit
+        const updateButtons = document.querySelectorAll(".btn-warning");
+        updateButtons.forEach(updateButton => {
+            updateButton.addEventListener("click", () => {
+                const userId = updateButton.getAttribute('jalur-pendaftaran');
+                if (userId) {
+                    updateUserManager(userId);
+                } else {
+                    console.error("Id Jalur Pendaftaran Tidak Ditemukan.")
+                }
+            })
+        })
 
         // Untuk Memunculkan Pagination Halamannya
         displayData(halamannow);
