@@ -503,10 +503,58 @@
             <div class="row align-items-center">
               <div class="col-md-6">
                 <div class="title d-flex align-items-center flex-wrap mb-30">
-                  <h2 class="mr-40">Fakultas</h2>
-                  <a href="#" class="main-btn primary-btn btn-hover btn-sm">
-                    <i class="lni lni-plus mr-5"></i> Tambah Fakultas</a
+                  <h2 class="mr-40">Program Studi</h2>
+                  <a href="#" class="main-btn primary-btn btn-hover btn-sm" data-bs-toggle="modal" data-bs-target="#new-prodi">
+                    <i class="lni lni-plus mr-5"></i> Tambah Program Studi</a
                   >
+                  <!-- Modal Tambah Data Start -->
+                  <div class="modal fade new-prodi" id="new-prodi" role="dialog" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content radius-xl">
+                        <div class="modal-header">
+                            <h6 class="modal-title fw-500" id="staticBackdropLabel">
+                            Tambah User Manager
+                            </h6>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <img src="../assets/images/logo/x.svg" alt="x" class="svg" />
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="new-prodi-modal">
+                            <form method="POST" id="myForm">
+                                <div class="form-group mb-20">
+                                <label>Nama Program Studi :</label>
+                                <input id="nama_prodi" type="text" class="form-control"
+                                    placeholder="Masukkan Nama Program Studi" />
+                                </div>
+                                <div class="form-group mb-20">
+                                <label>Kode Prodi :</label>
+                                <input id="kode_prodi" type="text" class="form-control"
+                                    placeholder="Masukkan Kode Prodi" />
+                                </div>
+                                <div class="form-group mb-20">
+                                <label>Fakultas :</label>
+                                <input id="fakultas" type="text" class="form-control"
+                                    placeholder="Pilih Fakultas" />
+                                </div>
+                                <div class="button-group d-flex pt-25">
+                                <button id="tambahDataButton"
+                                    class="btn btn-primary btn-default btn-squared text-capitalize mr-5">
+                                    Tambah Data
+                                </button>
+                                <button type="button"
+                                    class="btn btn-light btn-default btn-squared fw-400 text-capitalize b-light color-light"
+                                    data-bs-dismiss="modal">
+                                    cancel
+                                </button>
+                                </div>
+                            </form>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                <!-- Modal Tambah Data End -->
                 </div>
               </div>
             </div>
