@@ -1,7 +1,12 @@
 // Import library yang dibutuhkan
+import { CihuyDataAPI } from "https://c-craftjs.github.io/simpelbi/api.js";
 import { UrlGetProdi, UrlGetProdiById } from "../controller/template.js";
 import { CihuyDomReady, CihuyQuerySelector } from "https://c-craftjs.github.io/table/table.js";
 import { CihuyId } from "https://c-craftjs.github.io/element/element.js";
+import { CihuyGetCookie } from "https://c-craftjs.github.io/cookies/cookies.js";
+
+// Untuk Get Token
+const token = CihuyGetCookie("login");
 
 // Get Data Program Studi
 CihuyDomReady(() => {
@@ -121,5 +126,27 @@ function getProdiById(idProdi, callback) {
             const prodiData = response.data;
             callback(null, prodiData);
         }
+    })
+}
+
+// Update Data Program Studi
+// Buat fungsi updatenya beserta alertnya terlebih dahulu
+function updateProdi(idProdi) {
+    getProdiById(idProdi, (error, prodiData) => {
+        if (error) {
+            console.error("Gagal mengambil data prodi : ", error);
+            return;
+        }
+
+        // Mengisi formulir update dengan data prodi yang diperoleh
+        document.getElementById('update-nama_prodi').value = prodiData.program_studi;
+        document.getElementById('update-kode_prodi').value = prodiData.kode_program_studi;
+        document.getElementById('update-fakultas').value = prodiData.fakultas;
+
+        // Menampilkan modal update
+        const modalUpdate = new bootstrap.Modal(
+            document.getElementById('update-prodi')
+        );
+        modalUpdate.show();
     })
 }
