@@ -14,7 +14,7 @@ CihuyDomReady(() => {
     const buttonPreviousPage = CihuyId("prevPageBtn");
     const buttonNextPage = CihuyId("nextPageBtn");
     const halamanSaatIni = CihuyId("currentPage");
-    const itemPerPage = 10;
+    const itemPerPage = 8;
     let halamannow = 1;
 
     // Untuk Get All Data Pendaftar
