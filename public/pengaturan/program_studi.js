@@ -3,7 +3,7 @@ import { UrlGetProdi } from "../controller/template.js";
 import { CihuyDomReady, CihuyQuerySelector } from "https://c-craftjs.github.io/table/table.js";
 import { CihuyId } from "https://c-craftjs.github.io/element/element.js";
 
-// Get Data Jalur Pendaftaran
+// Get Data Program Studi
 CihuyDomReady(() => {
     const tablebody = CihuyId("tablebody");
     const buttonPreviousPage = CihuyId("prevPageBtn");
@@ -38,7 +38,7 @@ CihuyDomReady(() => {
                             <p>${values.fakultas}</p>
                         </td>
                         <td style="text-align: center; vertical-align: middle">
-                            <button type="button" class="btn btn-warning" style="color: white;" fakultas=${values.id_jalur} >Edit</button>
+                            <button type="button" class="btn btn-warning" style="color: white;" fakultas=${values.id_jalur} data-bs-toggle="modal" data-bs-target="#update-prodi">Edit</button>
                             <button type="button" class="btn btn-danger" fakultas=${values.id_jalur}>Hapus</button>
                         </td>
                     </tr>`;
