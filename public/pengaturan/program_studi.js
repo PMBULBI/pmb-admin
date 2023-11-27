@@ -1,5 +1,5 @@
 // Import library yang dibutuhkan
-import { UrlGetProdi } from "../controller/template.js";
+import { UrlGetProdi, UrlGetProdiById } from "../controller/template.js";
 import { CihuyDomReady, CihuyQuerySelector } from "https://c-craftjs.github.io/table/table.js";
 import { CihuyId } from "https://c-craftjs.github.io/element/element.js";
 
@@ -38,22 +38,26 @@ CihuyDomReady(() => {
                             <p>${values.fakultas}</p>
                         </td>
                         <td style="text-align: center; vertical-align: middle">
-                            <button type="button" class="btn btn-warning" style="color: white;" fakultas=${values.id_jalur} data-bs-toggle="modal" data-bs-target="#update-prodi">Edit</button>
-                            <button type="button" class="btn btn-danger" fakultas=${values.id_jalur}>Hapus</button>
+                            <button type="button" class="btn btn-warning" style="color: white;" prodi-id=${values.id} data-bs-toggle="modal" data-bs-target="#update-prodi">Edit</button>
+                            <button type="button" class="btn btn-danger" prodi-id=${values.id}>Hapus</button>
                         </td>
                     </tr>`;
         });
         // Tampilkan data pegawai ke dalam tabel
         document.getElementById("tablebody").innerHTML = tableData;
 
-        // // Untuk Button Detail
-        // const detailButton = document.querySelectorAll(".btn-warning");
-        // detailButton.forEach(button => {
-        //     button.addEventListener('click', (event) => {
-        //         const id_jalur = event.target.getAttribute('fakultas');
-        //         window.location.href = `detail_jalur_pendaftaran.html?id=${id_jalur}`;
-        //     });
-        // });
+        // Untuk Listener Button Edit
+        const updateButtons = document.querySelectorAll(".btn-warning");
+        updateButtons.forEach(updateButton => {
+            updateButton.addEventListener("click", () => {
+                const prodiId = updateButton.getAttribute('prodi-id');
+                if (prodiId) {
+                    updateProdi(prodiId);
+                } else {
+                    console.error("Id Prodi Tidak Ditemukan.")
+                }
+            })
+        })
 
         // Untuk Memunculkan Pagination Halamannya
         displayData(halamannow);
@@ -104,3 +108,18 @@ CihuyDomReady(() => {
 		}
 	});
 });
+
+// Get Data Prodi By Id
+function getProdiById(idProdi, callback) {
+    const apiUrlGetProdiById = UrlGetProdiById + `?id=${idProdi}`;
+
+    CihuyDataAPI(apiUrlGetProdiById, token, (error, response) => {
+        if (error) {
+            console.error("Terjadi kesalahan saat mengambil data program studi : ", error);
+            callback(error, null);
+        } else {
+            const prodiData = response.data;
+            callback(null, prodiData);
+        }
+    })
+}
