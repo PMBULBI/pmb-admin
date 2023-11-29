@@ -133,7 +133,7 @@ function updateFakultas(idFakultas) {
         }
 
         // Mengisi formulir update dengan data fakultas yang diperoleh
-        document.getElementById("").value = fakultasData.nama_fakultas;
+        document.getElementById("nama-fakultas-update").value = fakultasData.nama_fakultas;
 
         // Menampilkan modal update
         const modalUpdate = new bootstrap.Modal(
