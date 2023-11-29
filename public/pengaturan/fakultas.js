@@ -113,3 +113,23 @@ function getFakultasById(idFakultas, callback) {
          }
     })
 }
+
+// Update Data Fakultas
+// Buat fungsi updatenya beserta alertnya terlebih dahulu
+function updateFakultas(idFakultas) {
+    getFakultasById(idFakultas, (error, fakultasData) => {
+        if (error) {
+            console.error("Gagal mengamil data fakultas : ", error);
+            return;
+        }
+
+        // Mengisi formulir update dengan data fakultas yang diperoleh
+        document.getElementById("").value = fakultasData.nama_fakultas;
+
+        // Menampilkan modal update
+        const modalUpdate = new bootstrap.Modal(
+            document.getElementById('update-fakultas')
+        );
+        modalUpdate.show()
+})
+}
