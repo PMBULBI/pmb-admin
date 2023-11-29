@@ -1,7 +1,12 @@
 // Import library yang dibutuhkan
+import { CihuyDataAPI } from "https://c-craftjs.github.io/simpelbi/api.js";
 import { UrlGetFakultas, UrlGetFakultasById } from "../controller/template.js";
 import { CihuyDomReady, CihuyQuerySelector } from "https://c-craftjs.github.io/table/table.js";
 import { CihuyId } from "https://c-craftjs.github.io/element/element.js";
+import { CihuyGetCookie } from "https://c-craftjs.github.io/cookies/cookies.js";
+
+// Untuk Get Token
+const token = CihuyGetCookie("login");
 
 // Get Data Jalur Pendaftaran
 CihuyDomReady(() => {
