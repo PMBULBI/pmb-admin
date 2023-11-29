@@ -134,6 +134,35 @@ CihuyDomReady(() => {
 	});
 });
 
+// Get Data Jalur Pendaftaran By Id
+function getJalurPendaftaranById(idJalur, callback) {
+  const apiUrlGetJalurPendaftaranById = UrlGetJalurById + `id=${idJalur}`;
+
+  CihuyDataAPI(apiUrlGetJalurPendaftaranById, token, (error, response) => {
+    if (error) {
+      console.error("Terjadi kesalahan saat mengambil data jalur pendaftaran : ", error);
+      callback(error, null);
+    } else {
+      const jalurData = response.data;
+      callback(null, jalurData);
+    }
+  })
+}
+
+// Update Data Jalur Pendaftaran
+// Buat fungsi updatenya beserta alertnya terlebih dahulu
+function updateJalurPendaftaran(idJalur) {
+  getJalurPendaftaranById(idJalur, (error, jalurData) => {
+    if (error) {
+      console.error("Gagal mengambil data jalur pendaftaran : ", error);
+      return;
+    } else {
+      const jalurData = response.data;
+      callback(null, jalurData);
+    }
+  })
+}
+
 // Delete Data Jalur Pendaftaran
 // Buat Fungsi Deletenya terlebih dahulu dengan Alertnya
 function deleteJalurPendaftaran(idJalur) {
