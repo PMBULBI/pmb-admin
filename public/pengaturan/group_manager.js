@@ -1,7 +1,12 @@
 // Import library yang dibutuhkan
-import { UrlGetAdminLevel } from "../controller/template.js";
+import { CihuyDataAPI } from "https://c-craftjs.github.io/simpelbi/api.js";
+import { UrlGetAdminLevel, UrlGetAdminLevelById } from "../controller/template.js";
 import { CihuyDomReady, CihuyQuerySelector } from "https://c-craftjs.github.io/table/table.js";
 import { CihuyId } from "https://c-craftjs.github.io/element/element.js";
+import { CihuyGetCookie } from "https://c-craftjs.github.io/cookies/cookies.js";
+
+// Untuk Get Token
+const token = CihuyGetCookie("login");
 
 // Get Data User Manager
 // Membuat Fungsi Pagination dan Tabel
@@ -40,6 +45,20 @@ CihuyDomReady(() => {
         });
         // Tampilkan data pegawai ke dalam tabel
         document.getElementById("tablebody").innerHTML = tableData;
+
+        // Untuk Listener Button Edit
+        const updateButtons = document.querySelectorAll(".btn-warning");
+        updateButtons.forEach(updateButton => {
+            updateButton.addEventListener("click", () => {
+                const groupManagerId = updateButton.getAttribute('user-manager-id');
+                if (groupManagerId) {
+                    updateGroupManager(groupManagerId);
+                } else {
+                    console.error("Id Group Manager Tidak Ditemukan")
+                }
+            })
+        })
+
         // Untuk Memunculkan Pagination Halamannya
         displayData(halamannow);
         updatePagination();
@@ -90,6 +109,7 @@ CihuyDomReady(() => {
 	});
 });
 
+
 // Update Data Group Manager
 // Buat fungsi updatenya beserta alertnya terlebih dahulu
 function updateGroupManager(idGroupManager) {
@@ -105,6 +125,7 @@ function updateGroupManager(idGroupManager) {
         // Menampilkan modal update
         const modalUpdate = new bootstrap.Modal(
             document.getElementById('update-group-manager')
-        )
+        );
+        modalUpdate.show()
     })
 }
