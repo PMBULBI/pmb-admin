@@ -43,8 +43,8 @@ CihuyDomReady(() => {
                             <p>${values.fakultas}</p>
                         </td>
                         <td style="text-align: center; vertical-align: middle">
-                            <button type="button" class="btn btn-warning" style="color: white;" prodi-id=${values.id} data-bs-toggle="modal" data-bs-target="#update-prodi">Edit</button>
-                            <button type="button" class="btn btn-danger" prodi-id=${values.id}>Hapus</button>
+                            <button type="button" class="btn btn-warning" style="color: white;" prodi-id=${values.kode_program_studi} data-bs-toggle="modal" data-bs-target="#update-prodi">Edit</button>
+                            <button type="button" class="btn btn-danger" prodi-id=${values.kode_program_studi}>Hapus</button>
                         </td>
                     </tr>`;
         });
