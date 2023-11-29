@@ -109,6 +109,20 @@ CihuyDomReady(() => {
 	});
 });
 
+// Get Data Group Manager By Id
+function getGroupManagerById(idGroupManager, callback) {
+    const apiUrlGetGroupManagerById = UrlGetAdminLevelById + `?id=${idGroupManager}`;
+
+    CihuyDataAPI(apiUrlGetGroupManagerById, token, (error, response) => {
+        if (error) {
+            console.error("Terjadi kesalahan saat mengambil data group manager : ", error);
+            callback(error, null);
+        } else {
+            const groupManagerData = response.data;
+            callback(null, groupManagerData);
+        }
+    })
+}
 
 // Update Data Group Manager
 // Buat fungsi updatenya beserta alertnya terlebih dahulu
