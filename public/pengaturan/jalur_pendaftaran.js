@@ -1,4 +1,5 @@
 // Import library yang dibutuhkan
+import { CihuyDataAPI } from "https://c-craftjs.github.io/simpelbi/api.js";
 import { UrlGetJalur, UrlDeleteJalur, UrlGetJalurById } from "../controller/template.js";
 import { CihuyDomReady, CihuyQuerySelector } from "https://c-craftjs.github.io/table/table.js";
 import { CihuyId } from "https://c-craftjs.github.io/element/element.js";
@@ -77,7 +78,7 @@ CihuyDomReady(() => {
             updateButton.addEventListener("click", () => {
                 const userId = updateButton.getAttribute('jalur-pendaftaran');
                 if (userId) {
-                    updateUserManager(userId);
+                    updateJalurPendaftaran(userId);
                 } else {
                     console.error("Id Jalur Pendaftaran Tidak Ditemukan.")
                 }
@@ -136,7 +137,7 @@ CihuyDomReady(() => {
 
 // Get Data Jalur Pendaftaran By Id
 function getJalurPendaftaranById(idJalur, callback) {
-  const apiUrlGetJalurPendaftaranById = UrlGetJalurById + `id=${idJalur}`;
+  const apiUrlGetJalurPendaftaranById = UrlGetJalurById + `?id=${idJalur}`;
 
   CihuyDataAPI(apiUrlGetJalurPendaftaranById, token, (error, response) => {
     if (error) {
