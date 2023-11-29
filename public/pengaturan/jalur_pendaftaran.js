@@ -1,5 +1,5 @@
 // Import library yang dibutuhkan
-import { CihuyDataAPI } from "https://c-craftjs.github.io/simpelbi/api.js";
+import { CihuyDataAPI, CihuyDeleteAPI } from "https://c-craftjs.github.io/simpelbi/api.js";
 import { UrlGetJalur, UrlDeleteJalur, UrlGetJalurById } from "../controller/template.js";
 import { CihuyDomReady, CihuyQuerySelector } from "https://c-craftjs.github.io/table/table.js";
 import { CihuyId } from "https://c-craftjs.github.io/element/element.js";
@@ -195,7 +195,7 @@ function deleteJalurPendaftaran(idJalur) {
             const jalurData = response.data;
             if (jalurData) {
               // Dapatkan ID admin dari data yang diterima
-              const jalurId = jalurData.id_admin;
+              const jalurId = jalurData.id_jalur;
   
               // Buat URL untuk menghapus admin berdasarkan ID admin yang telah ditemukan
               const apiUrlDeleteJalur = UrlDeleteJalur + `?id=${jalurId}`;
