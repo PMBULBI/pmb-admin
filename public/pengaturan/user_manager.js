@@ -232,7 +232,7 @@ function updateUserManager(idUser) {
         }
 
         // Mengisi formulir update dengan data user manager yang diperoleh
-        document.getElementById("nama-update").value = userData.nama_admin;
+        document.getElementById("nama-user-update").value = userData.nama_admin;
         document.getElementById("username-update").value = userData.username;
         document.getElementById("email-update").value = userData.email;
         document.getElementById("no_hp-update").value = userData.no_hp;
@@ -246,77 +246,77 @@ function updateUserManager(idUser) {
         );
         modalUpdate.show();
 
-        // Untuk Simpan Perubahan Ketika Update Data
-        const updateButtonModal = document.getElementById("updateDataButton");
-        updateButtonModal.addEventListener("click", function () {
-            // Ambil value setiap elemen
-            const namaUserBaru = document.getElementById("nama-update").value;
-            const usernameBaru = document.getElementById("username-update").value;
-            const emailBaru = document.getElementById("email-update").value;
-            const noHpBaru = document.getElementById("no_hp-update").value;
-            const passwordBaru = document.getElementById("password-update").value;
-            const aktifBaru = document.getElementById("aktif-baru").value;
-            const levelBaru = document.getElementById("level-update").value;
+        // // Untuk Simpan Perubahan Ketika Update Data
+        // const updateButtonModal = document.getElementById("updateDataButton");
+        // updateButtonModal.addEventListener("click", function () {
+        //     // Ambil value setiap elemen
+        //     const namaUserBaru = document.getElementById("nama-user-update").value;
+        //     const usernameBaru = document.getElementById("username-update").value;
+        //     const emailBaru = document.getElementById("email-update").value;
+        //     const noHpBaru = document.getElementById("no_hp-update").value;
+        //     const passwordBaru = document.getElementById("password-update").value;
+        //     const aktifBaru = document.getElementById("aktif-baru").value;
+        //     const levelBaru = document.getElementById("level-update").value;
 
-            const dataUserToUpdate = {
-                nama_admin : namaUserBaru,
-                username : usernameBaru,
-                email : emailBaru,
-                no_hp : noHpBaru,
-                password : passwordBaru,
-                aktif : aktifBaru,
-                level : levelBaru,
-            }
+        //     const dataUserToUpdate = {
+        //         nama_admin : namaUserBaru,
+        //         username : usernameBaru,
+        //         email : emailBaru,
+        //         no_hp : noHpBaru,
+        //         password : passwordBaru,
+        //         aktif : aktifBaru,
+        //         level : levelBaru,
+        //     }
 
-            // Hide modal ketika sudah selesai isi
-            $("#update-user").modal("hide");
+        //     // Hide modal ketika sudah selesai isi
+        //     $("#update-user").modal("hide");
 
-            // Tampilkan SweetAlert konfirmasi sebelum mengirim permintaan
-            Swal.fire({
-                title: "Update Data User Manager?",
-                text: "Apakah Anda yakin ingin mengupdate data user ini?",
-                icon: "question",
-                showCancelButton: true,
-                confirmButtonText: "Ya, Update",
-                cancelButtonText: "Batal",
-            }).then((result) => {
-                if (result.isConfirmed) {
-                // Kirim permintaan PUT/UPDATE ke server dengan gambar
-                updateRequestData(idUser, dataUserToUpdate, modalUpdate);
-                }
-            });
-        })
+        //     // Tampilkan SweetAlert konfirmasi sebelum mengirim permintaan
+        //     Swal.fire({
+        //         title: "Update Data User Manager?",
+        //         text: "Apakah Anda yakin ingin mengupdate data user ini?",
+        //         icon: "question",
+        //         showCancelButton: true,
+        //         confirmButtonText: "Ya, Update",
+        //         cancelButtonText: "Batal",
+        //     }).then((result) => {
+        //         if (result.isConfirmed) {
+        //         // Kirim permintaan PUT/UPDATE ke server dengan gambar
+        //         updateRequestData(idUser, dataUserToUpdate, modalUpdate);
+        //         }
+        //     });
+        // })
     })
 }
 
-// Fungsi untuk Melakukan Updatenya
-function updateRequestData(idUser, dataUserToUpdate, modalUpdate) {
-    const apiUrlUserUpdate = UrlPutAdmin + `?id=${idUser}`;
+// // Fungsi untuk Melakukan Updatenya
+// function updateRequestData(idUser, dataUserToUpdate, modalUpdate) {
+//     const apiUrlUserUpdate = UrlPutAdmin + `?id=${idUser}`;
 
-    CihuyUpdateApi(apiUrlUserUpdate, token, dataUserToUpdate, (error, responseText) => {
-        if (error) {
-            console.error("Terjadi kesalahan saat update user manager : ", error);
-            // Tampilkan Alert Kesalahan
-            Swal.fire({
-                icon : "error",
-                title : "Oops...",
-                text : "Terjadi kesalahan saat update user manager.",
-            });
-        } else {
-            console.log("Respon sukses:", responseText);
-            // Menutup modal edit
-            modalUpdate.hide();
-            // Menampilkan pesan sukses
-            Swal.fire({
-              icon: "success",
-              title: "Sukses!",
-              text: "Data User berhasil diperbarui.",
-              showConfirmButton: false,
-              timer: 1500,
-            }).then(() => {
-              // Refresh halaman atau lakukan tindakan lain jika diperlukan
-              window.location.reload();
-            });
-        }
-    })
-}
+//     CihuyUpdateApi(apiUrlUserUpdate, token, dataUserToUpdate, (error, responseText) => {
+//         if (error) {
+//             console.error("Terjadi kesalahan saat update user manager : ", error);
+//             // Tampilkan Alert Kesalahan
+//             Swal.fire({
+//                 icon : "error",
+//                 title : "Oops...",
+//                 text : "Terjadi kesalahan saat update user manager.",
+//             });
+//         } else {
+//             console.log("Respon sukses:", responseText);
+//             // Menutup modal edit
+//             modalUpdate.hide();
+//             // Menampilkan pesan sukses
+//             Swal.fire({
+//               icon: "success",
+//               title: "Sukses!",
+//               text: "Data User berhasil diperbarui.",
+//               showConfirmButton: false,
+//               timer: 1500,
+//             }).then(() => {
+//               // Refresh halaman atau lakukan tindakan lain jika diperlukan
+//               window.location.reload();
+//             });
+//         }
+//     })
+// }
