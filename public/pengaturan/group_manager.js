@@ -33,8 +33,8 @@ CihuyDomReady(() => {
                             <p>${values.nama_level}</p>
                         </td>
                         <td style="text-align: center; vertical-align: middle">
-                            <button type="button" class="btn btn-warning" style="color: white;" user-manager-id=${values.id_admin} data-bs-toggle="modal" data-bs-target="#update-user">Edit</button>
-                            <button type="button" class="btn btn-danger" user-manager-id=${values.id_admin}>Hapus</button>
+                            <button type="button" class="btn btn-warning" style="color: white;" user-manager-id=${values.id_level} data-bs-toggle="modal" data-bs-target="#update-user">Edit</button>
+                            <button type="button" class="btn btn-danger" user-manager-id=${values.id_level}>Hapus</button>
                         </td>
                     </tr>`;
         });
@@ -89,3 +89,22 @@ CihuyDomReady(() => {
 		}
 	});
 });
+
+// Update Data Group Manager
+// Buat fungsi updatenya beserta alertnya terlebih dahulu
+function updateGroupManager(idGroupManager) {
+    getGroupManagerById(idGroupManager, (error, groupManagerData) => {
+        if (error) {
+            console.error("Gagal mengambil data group manager : ", error);
+            return;
+        }
+
+        // Mengisi formulir update dengan data prodi yang diperoleh
+        document.getElementById('nama-level-update').value = groupManagerData.nama_level;
+
+        // Menampilkan modal update
+        const modalUpdate = new bootstrap.Modal(
+            document.getElementById('update-group-manager')
+        )
+    })
+}
