@@ -32,22 +32,26 @@ CihuyDomReady(() => {
                             <p>${values.nama_fakultas}</p>
                         </td>
                         <td style="text-align: center; vertical-align: middle">
-                            <button type="button" class="btn btn-warning" style="color: white;" fakultas=${values.id_jalur} >Edit</button>
-                            <button type="button" class="btn btn-danger" fakultas=${values.id_jalur}>Hapus</button>
+                            <button type="button" class="btn btn-warning" style="color: white;" fakultas=${values.id_fakultas} >Edit</button>
+                            <button type="button" class="btn btn-danger" fakultas=${values.id_fakultas}>Hapus</button>
                         </td>
                     </tr>`;
         });
         // Tampilkan data pegawai ke dalam tabel
         document.getElementById("tablebody").innerHTML = tableData;
 
-        // // Untuk Button Detail
-        // const detailButton = document.querySelectorAll(".btn-warning");
-        // detailButton.forEach(button => {
-        //     button.addEventListener('click', (event) => {
-        //         const id_jalur = event.target.getAttribute('fakultas');
-        //         window.location.href = `detail_jalur_pendaftaran.html?id=${id_jalur}`;
-        //     });
-        // });
+        // Untuk Button edit
+        const updateButtons = document.querySelectorAll(".btn-warning");
+        updateButtons.forEach(updateButton => {
+            updateButton.addEventListener('click', () => {
+                const fakultasId = updateButton.getAttribute('fakultas');
+                if (fakultasId) {
+                    updateFakultas(fakultasId);
+                } else {
+                    console.error("Id Fakultas Tidak Ditemukan.")
+                }
+            });
+        });
 
         // Untuk Memunculkan Pagination Halamannya
         displayData(halamannow);
