@@ -156,10 +156,19 @@ function updateJalurPendaftaran(idJalur) {
     if (error) {
       console.error("Gagal mengambil data jalur pendaftaran : ", error);
       return;
-    } else {
-      const jalurData = response.data;
-      callback(null, jalurData);
     }
+
+    // Mengisi formulir update dengan data jalur yang diperoleh
+    document.getElementById("jalur-update").value = jalurData.jalur;
+    document.getElementById("nama_jalur-update").value = jalurData.nama_jalur;
+    document.getElementById("keterangan-update").value = jalurData.keterangan_jalur;
+    document.getElementById("status-update").value = jalurData.status;
+
+    // Menampilkan modal update
+    const modalUpdate = new bootstrap.Modal(
+      document.getElementById('update-jalur')
+    );
+    modalUpdate.show()
   })
 }
 
