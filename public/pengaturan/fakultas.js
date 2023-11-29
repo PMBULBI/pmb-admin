@@ -1,5 +1,5 @@
 // Import library yang dibutuhkan
-import { UrlGetFakultas } from "../controller/template.js";
+import { UrlGetFakultas, UrlGetFakultasById } from "../controller/template.js";
 import { CihuyDomReady, CihuyQuerySelector } from "https://c-craftjs.github.io/table/table.js";
 import { CihuyId } from "https://c-craftjs.github.io/element/element.js";
 
@@ -98,3 +98,18 @@ CihuyDomReady(() => {
 		}
 	});
 });
+
+// Get Data Fakultas By Id
+function getFakultasById(idFakultas, callback) {
+    const apiUrlGetFakultasById = UrlGetFakultasById + `?id=${idFakultas}`;
+
+    CihuyDataAPI(apiUrlGetFakultasById, token, (error, response) => {
+         if (error) {
+            console.error("Terjadi kesalahan saat mengambil data fakultas : ", error);
+            callback(error, null);
+         } else {
+            const fakultasData = response.data;
+            callback(null, fakultasData);
+         }
+    })
+}
