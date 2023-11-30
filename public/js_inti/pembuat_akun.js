@@ -1,8 +1,13 @@
 // Import library yang dibutuhkan
+import { CihuyDataAPI } from "https://c-craftjs.github.io/simpelbi/api.js";
 import { UrlGetPendaftar } from "../controller/template.js";
 import { formatTanggalWaktu } from "../style/formatdate.js"
 import { CihuyDomReady, CihuyQuerySelector } from "https://c-craftjs.github.io/table/table.js";
 import { CihuyId } from "https://c-craftjs.github.io/element/element.js";
+import { CihuyGetCookie } from "https://c-craftjs.github.io/cookies/cookies.js";
+
+// Untuk Get Token
+const token = CihuyGetCookie("login");
 
 CihuyDomReady(() => {
     const tablebody = CihuyId("tablebody");
@@ -13,69 +18,71 @@ CihuyDomReady(() => {
     let halamannow = 1;
 
     // Untuk Get All Data Pendaftar
-    fetch(UrlGetPendaftar)
-    .then((result) => {
-        return result.json();
+    CihuyDataAPI(UrlGetPendaftar, token, function (error, data) {
+        if (error) {
+            tablebody.innerHTML = `<tr><td colspan="5">Terjadi kesalahan: ${error.message}</td></tr>`;
+        } else {
+            if (data.success) {
+                let tableData = "";
+                data.data.map((values, index) => {
+                // Ubah format tanggal
+                const tglDaftar = new Date(values.tgl_daftar_mhs);
+                const formattedTglDaftar = formatTanggalWaktu(tglDaftar);
+
+                    // Manipulasi data pegawai dan masukkan ke dalam bentuk tabel
+                    tableData += `
+                                <tr style="text-align: center; vertical-align: middle">
+                                <td>
+                                <div class="min-width">
+                                    <p>${index + 1}</p>
+                                </div>
+                                </td>
+                                <td class="min-width">
+                                    <p>${values.nama_mhs}</p>
+                                </td>
+                                <td class="min-width">
+                                    <p>${values.hp_mhs}</p>
+                                </td>
+                                <td>
+                                    <p><b><font color="teal">${values.email_mhs}</font></b></p>
+                                    <p><b><font color="teal">${values.password}</font></b></p>
+                                </td>
+                                <td>
+                                    <p>${values.asal_sekolah}</p>
+                                    <p>${values.kota_sekolah}</p>
+                                    <p>${values.provinsi_sekolah}</p>
+                                </td>
+                                <td>
+                                    <p>${formattedTglDaftar}</p>
+                                </td>
+                                <td style="text-align: center; vertical-align: middle">
+                                    <button type="button" class="btn btn-warning" style="color: white;" data-pembuat-akun=${values.id}>Detail</button>
+                                    <button type="button" class="btn btn-info" style="color: white;" data-pembuat-akun=${values.id} >Edit</button>
+                                    <button type="button" class="btn btn-danger" data-pembuat-akun=${values.id}>Hapus</button>
+                                </td>
+                            </tr>`;
+                });
+                // Tampilkan data pegawai ke dalam tabel
+                document.getElementById("tablebody").innerHTML = tableData;
+
+                // Untuk Button Detail
+                const detailButton = document.querySelectorAll(".btn-warning");
+                detailButton.forEach(button => {
+                    button.addEventListener('click', (event) => {
+                        const id = event.target.getAttribute('data-pembuat-akun');
+                        window.location.href = `inti/detail-pembuat-akun.html?id=${id}`;
+                    });
+                });
+
+                // Untuk Memunculkan Pagination Halamannya
+                displayData(halamannow);
+                updatePagination();
+            } else {
+                // Tampilkan pesan kesalahan jika permintaan tidak berhasil
+                tablebody.innerHTML = `<tr><td colspan="5">${data.status}</td></tr>`;
+            }
+        }
     })
-    .then((data) => {
-        let tableData = "";
-        data.data.map((values, index) => {
-        // Ubah format tanggal
-        const tglDaftar = new Date(values.tgl_daftar_mhs);
-        const formattedTglDaftar = formatTanggalWaktu(tglDaftar);
-
-            // Manipulasi data pegawai dan masukkan ke dalam bentuk tabel
-            tableData += `
-                        <tr style="text-align: center; vertical-align: middle">
-                        <td>
-                        <div class="min-width">
-                            <p>${index + 1}</p>
-                        </div>
-                        </td>
-                        <td class="min-width">
-                            <p>${values.nama_mhs}</p>
-                        </td>
-                        <td class="min-width">
-                            <p>${values.hp_mhs}</p>
-                        </td>
-                        <td>
-                            <p><b><font color="teal">${values.email_mhs}</font></b></p>
-                            <p><b><font color="teal">${values.password}</font></b></p>
-                        </td>
-                        <td>
-                            <p>${values.asal_sekolah}</p>
-                            <p>${values.kota_sekolah}</p>
-                            <p>${values.provinsi_sekolah}</p>
-                        </td>
-                        <td>
-                            <p>${formattedTglDaftar}</p>
-                        </td>
-                        <td style="text-align: center; vertical-align: middle">
-                            <button type="button" class="btn btn-warning" style="color: white;" data-pembuat-akun=${values.id}>Detail</button>
-                            <button type="button" class="btn btn-info" style="color: white;" data-pembuat-akun=${values.id} >Edit</button>
-                            <button type="button" class="btn btn-danger" data-pembuat-akun=${values.id}>Hapus</button>
-                        </td>
-                    </tr>`;
-        });
-        // Tampilkan data pegawai ke dalam tabel
-        document.getElementById("tablebody").innerHTML = tableData;
-
-        // Untuk Button Detail
-        const detailButton = document.querySelectorAll(".btn-warning");
-        detailButton.forEach(button => {
-            button.addEventListener('click', (event) => {
-                const id = event.target.getAttribute('data-pembuat-akun');
-                window.location.href = `inti/detail-pembuat-akun.html?id=${id}`;
-            });
-        });
-
-        // Untuk Memunculkan Pagination Halamannya
-        displayData(halamannow);
-        updatePagination();
-    })
-    .catch(error => {
-        console.log('error', error);
-    });
 
     // Fungsi untuk Menampilkan Data
 	function displayData(page) {
