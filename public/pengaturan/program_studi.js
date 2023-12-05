@@ -1,9 +1,10 @@
 // Import library yang dibutuhkan
 import { CihuyDataAPI } from "https://c-craftjs.github.io/simpelbi/api.js";
-import { UrlGetProdi, UrlGetProdiById } from "../controller/template.js";
+import { UrlGetFakultas, UrlGetProdi, UrlGetProdiById } from "../controller/template.js";
 import { CihuyDomReady, CihuyQuerySelector } from "https://c-craftjs.github.io/table/table.js";
 import { CihuyId } from "https://c-craftjs.github.io/element/element.js";
 import { CihuyGetCookie } from "https://c-craftjs.github.io/cookies/cookies.js";
+import { get } from "https://jscroot.github.io/api/croot.js";
 
 // Untuk Get Token
 const token = CihuyGetCookie("login");
@@ -113,6 +114,29 @@ CihuyDomReady(() => {
 		}
 	});
 });
+
+// Post Data Prodi
+// Untuk dropdown fakultas
+function fetchDataFakultas() {
+    get(UrlGetFakultas, populateDropdownFakultas);
+}
+function populateDropdownFakultas(data) {
+    const selectDropdown = document.getElementById('pilih-fakultas')
+    selectDropdown.innerHTML = '';
+
+    const defaultOption = document.createElement('option');
+    defaultOption.value = '';
+    defaultOption.text = 'Pilih Fakultas';
+    selectDropdown.appendChild(defaultOption);
+
+    data.data.forEach(item => {
+        const option = document.createElement('option');
+        option.value = item.nama_fakultas;
+        option.text = item.nama_fakultas;
+        selectDropdown.appendChild(option);
+    })
+}
+fetchDataFakultas();
 
 // Get Data Prodi By Id
 function getProdiById(idProdi, callback) {
