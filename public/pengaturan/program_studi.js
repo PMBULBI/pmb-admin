@@ -154,6 +154,28 @@ function getProdiById(idProdi, callback) {
 }
 
 // Update Data Program Studi
+// Dropdown Fakultas di modal update
+function fetchDataFakultasUpdate() {
+    get(UrlGetFakultas, populateDropdownFakultasUpdate);
+}
+function populateDropdownFakultasUpdate(data) {
+    const selectDropdown = document.getElementById('update-fakultas')
+    selectDropdown.innerHTML = '';
+
+    const defaultOption = document.createElement('option');
+    defaultOption.value = '';
+    defaultOption.text = 'Pilih Fakultas';
+    selectDropdown.appendChild(defaultOption);
+
+    data.data.forEach(item => {
+        const option = document.createElement('option');
+        option.value = item.nama_fakultas;
+        option.text = item.nama_fakultas;
+        selectDropdown.appendChild(option);
+    })
+}
+fetchDataFakultasUpdate();
+
 // Buat fungsi updatenya beserta alertnya terlebih dahulu
 function updateProdi(idProdi) {
     getProdiById(idProdi, (error, prodiData) => {
