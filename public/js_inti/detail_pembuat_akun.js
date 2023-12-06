@@ -1,6 +1,11 @@
 // Import library yang dibutuhkan
 import { UrlGetPendaftarById } from "../controller/template.js";
 import { formatTanggalWaktu } from "../style/formatdate.js";
+import { CihuyDataAPI } from "https://c-craftjs.github.io/simpelbi/api.js";
+import { CihuyGetCookie } from "https://c-craftjs.github.io/cookies/cookies.js";
+
+// Untuk Get Token
+const token = CihuyGetCookie("login");
 
 // Untuk Get Data Pembuat Akun By ID
 // Ambil terlebih dahulu id dari URL
@@ -23,10 +28,10 @@ document.addEventListener("DOMContentLoaded", function () {
     // Function to fetch and display data
     function fetchDataAndDisplay() {
       // Fetch data from the API
-      fetch(`${apiUrl}?id=${id}`)
-        .then((response) => response.json())
-        .then((data) => {
-          // Check if the request was successful
+      CihuyDataAPI(`${apiUrl}?id=${id}`, token, function (error, data) {
+        if (error) {
+            tablebody.innerHTML = `<tr><td colspan="5">Terjadi kesalahan: ${error.message}</td></tr>`;
+        } else {
           if (data.code === 200 && data.success) {
             const dataDetails = data.data;
 
@@ -45,10 +50,11 @@ document.addEventListener("DOMContentLoaded", function () {
           } else {
             console.error("Failed to fetch data:", data.status);
           }
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
-        });
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
     }
   
     // Call the function to fetch and display data
