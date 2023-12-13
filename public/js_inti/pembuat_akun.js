@@ -38,6 +38,9 @@ CihuyDomReady(() => {
                                 </div>
                                 </td>
                                 <td class="min-width">
+                                    <p>Jalur Reguler</p>
+                                </td>
+                                <td class="min-width">
                                     <p>${values.nama_mhs}</p>
                                 </td>
                                 <td class="min-width">
@@ -49,30 +52,32 @@ CihuyDomReady(() => {
                                 </td>
                                 <td>
                                     <p>${values.asal_sekolah}</p>
-                                    <p>${values.kota_sekolah}</p>
-                                    <p>${values.provinsi_sekolah}</p>
+                                </td>
+                                <td>
+                                    <p>2019</p>
                                 </td>
                                 <td>
                                     <p>${formattedTglDaftar}</p>
                                 </td>
                                 <td style="text-align: center; vertical-align: middle">
-                                    <button type="button" class="btn btn-warning" style="color: white;" data-pembuat-akun=${values.id}>Detail</button>
-                                    <button type="button" class="btn btn-info" style="color: white;" data-pembuat-akun=${values.id} >Edit</button>
-                                    <button type="button" class="btn btn-danger" data-pembuat-akun=${values.id}>Hapus</button>
+                                    <span class="status-btn danger-btn">Belum Ada Tagihan</span>
+                                </td>
+                                <td style="text-align: center; vertical-align: middle">
+                                    <span class="status-btn danger-btn">Belum Isi Biodata</span>
                                 </td>
                             </tr>`;
                 });
                 // Tampilkan data pegawai ke dalam tabel
                 document.getElementById("tablebody").innerHTML = tableData;
 
-                // Untuk Button Detail
-                const detailButton = document.querySelectorAll(".btn-warning");
-                detailButton.forEach(button => {
-                    button.addEventListener('click', (event) => {
-                        const id = event.target.getAttribute('data-pembuat-akun');
-                        window.location.href = `inti/detail-pembuat-akun.html?id=${id}`;
-                    });
-                });
+                // // Untuk Button Detail
+                // const detailButton = document.querySelectorAll(".btn-warning");
+                // detailButton.forEach(button => {
+                //     button.addEventListener('click', (event) => {
+                //         const id = event.target.getAttribute('data-pembuat-akun');
+                //         window.location.href = `inti/detail-pembuat-akun.html?id=${id}`;
+                //     });
+                // });
 
                 // Untuk Memunculkan Pagination Halamannya
                 displayData(halamannow);
