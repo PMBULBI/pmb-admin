@@ -76,9 +76,9 @@ CihuyDomReady(() => {
         const updateButtons = document.querySelectorAll(".btn-warning");
         updateButtons.forEach(updateButton => {
             updateButton.addEventListener("click", () => {
-                const userId = updateButton.getAttribute('jalur-pendaftaran');
-                if (userId) {
-                    updateJalurPendaftaran(userId);
+                const jalurId = updateButton.getAttribute('jalur-pendaftaran');
+                if (jalurId) {
+                    updateJalurPendaftaran(jalurId);
                 } else {
                     console.error("Id Jalur Pendaftaran Tidak Ditemukan.")
                 }
@@ -175,67 +175,48 @@ function updateJalurPendaftaran(idJalur) {
 
 // Delete Data Jalur Pendaftaran
 // Buat Fungsi Deletenya terlebih dahulu dengan Alertnya
-function deleteJalurPendaftaran(idJalur) {
+function deleteJalurPendaftaran(jalurId) {
+  // Use Swal for confirmation
   Swal.fire({
-      title: "Apakah Anda yakin ingin menghapus Jalur Pendaftaran?",
-      text: "Penghapusan Jalur Pendaftaran akan permanen.",
-      icon: "warning",
+      title: 'Hapus Jalur Pendaftaran?',
+      text: 'Apakah Anda yakin ingin menghapus jalur pendaftaran ini?',
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: "Ya, Hapus",
-      cancelButtonText: "Tidak, Batal",
-    }).then((result) => {
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Ya, Hapus!',
+      cancelButtonText: 'Batal'
+  }).then((result) => {
       if (result.isConfirmed) {
-        const apiUrlGetJalurById = UrlGetJalurById + `?id=${idJalur}`;
-  
-        // Lakukan permintaan GET untuk mengambil admin berdasarkan ID admin
-        CihuyDataAPI(apiUrlGetJalurById, token, (error, response) => {
-          if (error) {
-            console.error("Terjadi kesalahan saat mengambil data jalur pendaftaran :", error);
-          } else {
-            const jalurData = response.data;
-            if (jalurData) {
-              // Dapatkan ID admin dari data yang diterima
-              const jalurId = jalurData.id_jalur;
-  
-              // Buat URL untuk menghapus admin berdasarkan ID admin yang telah ditemukan
-              const apiUrlDeleteJalur = UrlDeleteJalur + `?id=${jalurId}`;
-  
-              // Lakukan permintaan DELETE untuk menghapus admin
-              CihuyDeleteAPI(
-                apiUrlDeleteJalur,
-                token,
-                (deleteError, deleteData) => {
-                  if (deleteError) {
-                    console.error(
-                      "Terjadi kesalahan saat menghapus data jalur pendaftaran :",
-                      deleteError
-                    );
-                    Swal.fire({
-                      icon: "error",
-                      title: "Oops...",
-                      text: "Terjadi kesalahan saat menghapus data jalur pendaftaran!",
-                    });
+          const requestOptions = {
+              method: 'DELETE',
+              headers: header,
+          };
+
+          fetch(UrlDeleteJalur + `?id=${jalurId}`, requestOptions)
+              .then(response => response.json())
+              .then(data => {
+                  if (data.success) {
+                      Swal.fire({
+                          icon: 'success',
+                          title: 'Sukses!',
+                          text: 'Jalur pendaftaran berhasil dihapus.',
+                          showConfirmButton: false,
+                          timer: 1500
+                      }).then(() => {
+                          location.reload(); // Refresh the page after successful deletion
+                      });
                   } else {
-                    console.log("Admin berhasil dihapus:", deleteData);
-                    Swal.fire({
-                      icon: "success",
-                      title: "Sukses!",
-                      text: "Jalur pendaftaran berhasil dihapus.",
-                      showConfirmButton: false,
-                      timer: 1500,
-                    }).then(() => {
-                      window.location.reload();
-                    });
+                      Swal.fire({
+                          icon: 'error',
+                          title: 'Oops...',
+                          text: 'Jalur pendaftaran gagal dihapus.'
+                      });
                   }
-                }
-              );
-            } else {
-              console.error("Jalur pendaftaran tidak ditemukan.");
-            }
-          }
-        });
-      } else {
-        Swal.fire("Dibatalkan", "Penghapusan jalur pendaftaran dibatalkan.", "info");
+              })
+              .catch(error => {
+                  console.error("Error saat melakukan DELETE Data : ", error);
+              });
       }
-    });
+  });
 }
