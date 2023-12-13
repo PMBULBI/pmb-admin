@@ -4,9 +4,11 @@ import { UrlGetAdmin, UrlDeleteAdmin, UrlGetAdminById, UrlPutAdmin } from "../co
 import { CihuyDomReady, CihuyQuerySelector } from "https://c-craftjs.github.io/table/table.js";
 import { CihuyId } from "https://c-craftjs.github.io/element/element.js";
 import { CihuyGetCookie } from "https://c-craftjs.github.io/cookies/cookies.js";
+import { token } from "../controller/cookies.js";
 
-// Untuk Get Token
-const token = CihuyGetCookie("login");
+var header = new Headers();
+header.append("login", token);
+header.append("Content-Type", "application/json");
 
 // Get Data User Manager
 // Membuat Fungsi Pagination dan Tabel
@@ -141,70 +143,50 @@ CihuyDomReady(() => {
 });
 
 // Delete Data User Manager
-// Buat Fungsi Deletenya terlebih dahulu dengan Alertnya
-function deleteUserManager(idUser) {
+function deleteUserManager(userId) {
+    // Use Swal for confirmation
     Swal.fire({
-        title: "Apakah Anda yakin ingin menghapus User Manager?",
-        text: "Penghapusan user manager akan permanen.",
-        icon: "warning",
+        title: 'Hapus User Manager?',
+        text: 'Apakah Anda yakin ingin menghapus user manager ini?',
+        icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: "Ya, Hapus",
-        cancelButtonText: "Tidak, Batal",
-      }).then((result) => {
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Ya, Hapus!',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
         if (result.isConfirmed) {
-          const apiUrlGetUserById = UrlGetAdminById + `?id=${idUser}`;
-    
-          // Lakukan permintaan GET untuk mengambil admin berdasarkan ID admin
-          CihuyDataAPI(apiUrlGetUserById, token, (error, response) => {
-            if (error) {
-              console.error("Terjadi kesalahan saat mengambil user :", error);
-            } else {
-              const userData = response.data;
-              if (userData) {
-                // Dapatkan ID admin dari data yang diterima
-                const userId = userData.id_admin;
-    
-                // Buat URL untuk menghapus admin berdasarkan ID admin yang telah ditemukan
-                const apiUrlAdminDelete = UrlDeleteAdmin + `?id=${userId}`;
-    
-                // Lakukan permintaan DELETE untuk menghapus admin
-                CihuyDeleteAPI(
-                  apiUrlAdminDelete,
-                  token,
-                  (deleteError, deleteData) => {
-                    if (deleteError) {
-                      console.error(
-                        "Terjadi kesalahan saat menghapus user :",
-                        deleteError
-                      );
-                      Swal.fire({
-                        icon: "error",
-                        title: "Oops...",
-                        text: "Terjadi kesalahan saat menghapus user!",
-                      });
+            const requestOptions = {
+                method: 'DELETE',
+                headers: header,
+            };
+
+            fetch(UrlDeleteAdmin + `?id=${userId}`, requestOptions)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Sukses!',
+                            text: 'User manager berhasil dihapus.',
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(() => {
+                            location.reload(); // Refresh the page after successful deletion
+                        });
                     } else {
-                      console.log("Admin berhasil dihapus:", deleteData);
-                      Swal.fire({
-                        icon: "success",
-                        title: "Sukses!",
-                        text: "User Manager berhasil dihapus.",
-                        showConfirmButton: false,
-                        timer: 1500,
-                      }).then(() => {
-                        window.location.reload();
-                      });
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'User manager gagal dihapus.'
+                        });
                     }
-                  }
-                );
-              } else {
-                console.error("Data user tidak ditemukan.");
-              }
-            }
-          });
-        } else {
-          Swal.fire("Dibatalkan", "Penghapusan user dibatalkan.", "info");
+                })
+                .catch(error => {
+                    console.error("Error saat melakukan DELETE Data : ", error);
+                });
         }
-      });
+    });
 }
 
 // Get Data User Manager By Id
