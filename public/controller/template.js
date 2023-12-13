@@ -33,4 +33,5 @@ export let UrlPutFakultas = "https://komarbe.ulbi.ac.id/fakultas/put";
 export let UrlDeleteAdminLevel = "https://komarbe.ulbi.ac.id/admin_level/delete";
 export let UrlDeleteAdmin = "https://komarbe.ulbi.ac.id/admin/delete";
 export let UrlDeleteJalur = "https://komarbe.ulbi.ac.id/jalur/delete";
-export let UrlDeleteFakultas = "https://komarbe.ulbi.ac.id/fakultas/delete"
+export let UrlDeleteFakultas = "https://komarbe.ulbi.ac.id/fakultas/delete";
+export let UrlDeleteProdi = "https://komarbe.ulbi.ac.id/prodi/delete";
