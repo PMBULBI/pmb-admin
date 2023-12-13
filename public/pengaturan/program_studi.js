@@ -1,6 +1,6 @@
 // Import library yang dibutuhkan
 import { CihuyDataAPI } from "https://c-craftjs.github.io/simpelbi/api.js";
-import { UrlGetFakultas, UrlGetProdi, UrlGetProdiById, UrlPostProdi } from "../controller/template.js";
+import { UrlGetFakultas, UrlGetProdi, UrlGetProdiById, UrlPostProdi, UrlDeleteProdi } from "../controller/template.js";
 import { CihuyDomReady, CihuyQuerySelector } from "https://c-craftjs.github.io/table/table.js";
 import { CihuyId } from "https://c-craftjs.github.io/element/element.js";
 import { getValue } from "https://cdn.jsdelivr.net/gh/jscroot/element@0.0.5/croot.js";
@@ -308,7 +308,7 @@ function deleteProdi(prodiId) {
                 headers: header,
             };
 
-            fetch(`https://komarbe.ulbi.ac.id/prodi/delete?id=${prodiId}`, requestOptions)
+            fetch(UrlDeleteProdi + `?id=${prodiId}`, requestOptions)
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
