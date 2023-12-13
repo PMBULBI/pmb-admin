@@ -5,6 +5,7 @@ import { CihuyDomReady, CihuyQuerySelector } from "https://c-craftjs.github.io/t
 import { CihuyId } from "https://c-craftjs.github.io/element/element.js";
 import { token } from "../controller/cookies.js";
 
+// Untuk Get Token
 var header = new Headers();
 header.append("login", token);
 header.append("Content-Type", "application/json");

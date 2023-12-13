@@ -6,8 +6,6 @@ import { CihuyId } from "https://c-craftjs.github.io/element/element.js";
 import { CihuyGetCookie } from "https://c-craftjs.github.io/cookies/cookies.js";
 
 // Untuk Get Token
-const token = CihuyGetCookie("login");
-
 var header = new Headers();
 header.append("login", token);
 header.append("Content-Type", "application/json");
