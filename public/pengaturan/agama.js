@@ -55,8 +55,21 @@ CihuyDomReady(() => {
                 } else {
                     console.error("Id Agama Tidak Ditemukan.")
                 }
-            })
-        })
+            });
+        });
+
+        // Untuk Listener Button delete
+        const deleteButtons = document.querySelectorAll(".btn-danger");
+        deleteButtons.forEach(deleteButton => {
+            deleteButton.addEventListener("click", () => {
+                const agamaId = deleteButton.getAttribute('agama-id');
+                if (agamaId) {
+                    deleteAgama(agamaId);
+                } else {
+                    console.error("Id Agama Tidak Ditemukan.")
+                }
+            });
+        });
 
         // Untuk Memunculkan Pagination Halamannya
         displayData(halamannow);
@@ -123,22 +136,69 @@ function getAgamaById(idAgama, callback) {
     })
 }
 
-// Update Data Program Studi
+// Update Data Agama
 // Buat fungsi updatenya beserta alertnya terlebih dahulu
 function updateAgama(idAgama) {
     getAgamaById(idAgama, (error, agamaData) => {
         if (error) {
-            console.error("Gagal mengambil data prodi : ", error);
+            console.error("Gagal mengambil data agama : ", error);
             return;
         }
 
-        // Mengisi formulir update dengan data prodi yang diperoleh
+        // Mengisi formulir update dengan data agama yang diperoleh
         document.getElementById('nama-agama-update').value = agamaData.agama;
 
         // Menampilkan modal update
         const modalUpdate = new bootstrap.Modal(
-            document.getElementById('update-prodi')
+            document.getElementById('update-agama')
         );
         modalUpdate.show();
     })
+}
+
+// Delete Data Agama
+function deleteAgama(agamaId) {
+    // Use Swal for confirmation
+    Swal.fire({
+        title: 'Hapus Agama?',
+        text: 'Apakah Anda yakin ingin menghapus agama ini?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Ya, Hapus!',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const requestOptions = {
+                method: 'DELETE',
+                headers: header,
+            };
+
+            fetch(UrlDeleteAgama + `?id=${agamaId}`, requestOptions)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Sukses!',
+                            text: 'Agama berhasil dihapus.',
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(() => {
+                            location.reload(); // Refresh the page after successful deletion
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Agama gagal dihapus.'
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error("Error saat melakukan DELETE Data : ", error);
+                });
+        }
+    });
 }
