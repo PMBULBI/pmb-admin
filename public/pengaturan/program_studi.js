@@ -1,13 +1,15 @@
 // Import library yang dibutuhkan
 import { CihuyDataAPI } from "https://c-craftjs.github.io/simpelbi/api.js";
-import { UrlGetFakultas, UrlGetProdi, UrlGetProdiById } from "../controller/template.js";
+import { UrlGetFakultas, UrlGetProdi, UrlGetProdiById, UrlPostProdi } from "../controller/template.js";
 import { CihuyDomReady, CihuyQuerySelector } from "https://c-craftjs.github.io/table/table.js";
 import { CihuyId } from "https://c-craftjs.github.io/element/element.js";
-import { CihuyGetCookie } from "https://c-craftjs.github.io/cookies/cookies.js";
+import { getValue } from "https://cdn.jsdelivr.net/gh/jscroot/element@0.0.5/croot.js";
 import { get } from "https://jscroot.github.io/api/croot.js";
+import { token } from "../controller/cookies.js";
 
-// Untuk Get Token
-const token = CihuyGetCookie("login");
+var header = new Headers();
+header.append("login", token);
+header.append("Content-Type", "application/json");
 
 // Get Data Program Studi
 CihuyDomReady(() => {
@@ -115,7 +117,75 @@ CihuyDomReady(() => {
 	});
 });
 
-// Post Data Prodi
+// Post Program Studi
+function submitProdi() {
+    const namaProdi = getValue('nama_prodi');
+    const kodeProdi = getValue('kode_prodi');
+    const fakultasElement = document.getElementById('pilih-fakultas');
+    const fakultas = fakultasElement.options[fakultasElement.selectedIndex].value;
+    
+    const myData = {
+        "program_studi": namaProdi,
+        "kode_program_studi": kodeProdi,
+        "fakultas": fakultas
+    };
+
+    fetch(UrlPostProdi)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sukses!',
+                    text: 'Program studi berhasil ditambahkan.',
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(() => {
+                    location.replace('program_studi.html'); // Ganti window.location.href dengan location.replace
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Program studi gagal ditambahkan.'
+                })
+            }
+        })
+        .catch(error => {
+            console.error("Error saat melakukan POST Data : ", error);
+        });
+}
+
+const submitButton = document.getElementById('tambahDataButton');
+submitButton.addEventListener('click', (event) => {
+    event.preventDefault(); // Tambahkan baris ini
+    const namaProdi = getValue('nama_prodi');
+    const kodeProdi = getValue('kode_prodi');
+    const fakultas = getValue('pilih-fakultas');
+    if (!namaProdi || !kodeProdi || !fakultas) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Oops...',
+            text: 'Semua field harus diisi!',
+        });
+        return;
+    }
+    Swal.fire({
+        title: 'Tambah Program Studi?',
+        text: 'Apakah anda yakin ingin tambah program studi?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            submitProdi();
+        }
+    });
+});
+
 // Untuk dropdown fakultas
 function fetchDataFakultas() {
     get(UrlGetFakultas, populateDropdownFakultas);
