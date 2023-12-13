@@ -3,6 +3,7 @@ import { CihuyDataAPI } from "https://c-craftjs.github.io/simpelbi/api.js";
 import { UrlGetAgama, UrlGetAgamaById } from "../controller/template.js";
 import { CihuyDomReady, CihuyQuerySelector } from "https://c-craftjs.github.io/table/table.js";
 import { CihuyId } from "https://c-craftjs.github.io/element/element.js";
+import { token } from "../controller/cookies.js";
 
 // Untuk Get Token
 var header = new Headers();

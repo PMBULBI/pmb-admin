@@ -3,7 +3,7 @@ import { CihuyDataAPI, CihuyDeleteAPI } from "https://c-craftjs.github.io/simpel
 import { UrlGetJalur, UrlDeleteJalur, UrlGetJalurById } from "../controller/template.js";
 import { CihuyDomReady, CihuyQuerySelector } from "https://c-craftjs.github.io/table/table.js";
 import { CihuyId } from "https://c-craftjs.github.io/element/element.js";
-import { CihuyGetCookie } from "https://c-craftjs.github.io/cookies/cookies.js";
+import { token } from "../controller/cookies.js";
 
 // Untuk Get Token
 var header = new Headers();
