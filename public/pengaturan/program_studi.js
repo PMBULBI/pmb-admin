@@ -63,10 +63,23 @@ CihuyDomReady(() => {
                     updateProdi(prodiId);
                 } else {
                     console.error("Id Prodi Tidak Ditemukan.")
-                }
-            })
-        })
+                };
+            });
+        });
 
+        // Untuk Listener Button Delete
+        const deleteButtons = document.querySelectorAll(".btn-danger");
+        deleteButtons.forEach(deleteButton => {
+            deleteButton.addEventListener("click", () => {
+                const prodiId = deleteButton.getAttribute('prodi-id');
+                if(prodiId) {
+                    deleteProdi(prodiId);
+                } else {
+                    console.error("Id Prodi Tidak Ditemukan.")
+                };
+            });
+        });
+        
         // Untuk Memunculkan Pagination Halamannya
         displayData(halamannow);
         updatePagination();
@@ -232,7 +245,6 @@ function getProdiById(idProdi, callback) {
     })
 }
 
-// Update Data Program Studi
 // Dropdown Fakultas di modal update
 function fetchDataFakultasUpdate() {
     get(UrlGetFakultas, populateDropdownFakultasUpdate);
@@ -255,6 +267,7 @@ function populateDropdownFakultasUpdate(data) {
 }
 fetchDataFakultasUpdate();
 
+// Update Data Program Studi
 // Buat fungsi updatenya beserta alertnya terlebih dahulu
 function updateProdi(idProdi) {
     getProdiById(idProdi, (error, prodiData) => {
@@ -274,4 +287,51 @@ function updateProdi(idProdi) {
         );
         modalUpdate.show();
     })
+}
+
+// Delete Data Program Studi
+function deleteProdi(prodiId) {
+    // Use Swal for confirmation
+    Swal.fire({
+        title: 'Hapus Program Studi?',
+        text: 'Apakah Anda yakin ingin menghapus program studi ini?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Ya, Hapus!',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const requestOptions = {
+                method: 'DELETE',
+                headers: header,
+            };
+
+            fetch(`https://komarbe.ulbi.ac.id/prodi/delete?id=${prodiId}`, requestOptions)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Sukses!',
+                            text: 'Program studi berhasil dihapus.',
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(() => {
+                            location.reload(); // Refresh the page after successful deletion
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Program studi gagal dihapus.'
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error("Error saat melakukan DELETE Data : ", error);
+                });
+        }
+    });
 }
