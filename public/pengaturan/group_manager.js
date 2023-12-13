@@ -1,12 +1,14 @@
 // Import library yang dibutuhkan
 import { CihuyDataAPI } from "https://c-craftjs.github.io/simpelbi/api.js";
-import { UrlGetAdminLevel, UrlGetAdminLevelById } from "../controller/template.js";
+import { UrlDeleteAdminLevel, UrlGetAdminLevel, UrlGetAdminLevelById } from "../controller/template.js";
 import { CihuyDomReady, CihuyQuerySelector } from "https://c-craftjs.github.io/table/table.js";
 import { CihuyId } from "https://c-craftjs.github.io/element/element.js";
 import { CihuyGetCookie } from "https://c-craftjs.github.io/cookies/cookies.js";
 
 // Untuk Get Token
-const token = CihuyGetCookie("login");
+var header = new Headers();
+header.append("login", token);
+header.append("Content-Type", "application/json");
 
 // Get Data User Manager
 // Membuat Fungsi Pagination dan Tabel
@@ -56,8 +58,21 @@ CihuyDomReady(() => {
                 } else {
                     console.error("Id Group Manager Tidak Ditemukan")
                 }
-            })
-        })
+            });
+        });
+
+        // Untuk Listener Button Delete
+        const deleteButtons = document.querySelectorAll(".btn-danger");
+        deleteButtons.forEach(deleteButton => {
+            deleteButton.addEventListener("click", () => {
+                const groupManagerId = deleteButton.getAttribute('user-manager-id');
+                if (groupManagerId) {
+                    deleteGroupManager(groupManagerId);
+                } else {
+                    console.error("Id Group Manager Tidak Ditemukan")
+                }
+            });
+        });
 
         // Untuk Memunculkan Pagination Halamannya
         displayData(halamannow);
@@ -143,3 +158,51 @@ function updateGroupManager(idGroupManager) {
         modalUpdate.show()
     })
 }
+
+// Delete Data Group Manager
+// Buat Fungsi Deletenya terlebih dahulu dengan Alertnya
+function deleteGroupManager(groupManagerId) {
+    // Use Swal for confirmation
+    Swal.fire({
+        title: 'Hapus Group Manager?',
+        text: 'Apakah Anda yakin ingin menghapus group manager ini?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Ya, Hapus!',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const requestOptions = {
+                method: 'DELETE',
+                headers: header,
+            };
+  
+            fetch(UrlDeleteAdminLevel + `?id=${groupManagerId}`, requestOptions)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Sukses!',
+                            text: 'Group manager berhasil dihapus.',
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(() => {
+                            location.reload(); // Refresh the page after successful deletion
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Group manager gagal dihapus.'
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error("Error saat melakukan DELETE Data : ", error);
+                });
+        }
+    });
+  }
