@@ -21,6 +21,7 @@ export let UrlPostAdminLevel = "https://komarbe.ulbi.ac.id/admin_level/post";
 export let UrlPostAdmin = "https://komarbe.ulbi.ac.id/admin/post";
 export let UrlPostJalur = "https://komarbe.ulbi.ac.id/jalur/post";
 export let UrlPostFakultas = "https://komarbe.ulbi.ac.id/fakultas/post";
+export let UrlPostProdi = "https://komarbe.ulbi.ac.id/prodi/post";
 
 // Endpoint PUT
 export let UrlPutAdminLevel = "https://komarbe.ulbi.ac.id/admin_level/put";
