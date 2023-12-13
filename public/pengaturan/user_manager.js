@@ -3,7 +3,6 @@ import { CihuyDataAPI, CihuyDeleteAPI, CihuyUpdateApi } from "https://c-craftjs.
 import { UrlGetAdmin, UrlDeleteAdmin, UrlGetAdminById, UrlPutAdmin } from "../controller/template.js";
 import { CihuyDomReady, CihuyQuerySelector } from "https://c-craftjs.github.io/table/table.js";
 import { CihuyId } from "https://c-craftjs.github.io/element/element.js";
-import { CihuyGetCookie } from "https://c-craftjs.github.io/cookies/cookies.js";
 import { token } from "../controller/cookies.js";
 
 var header = new Headers();
