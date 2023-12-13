@@ -1,12 +1,14 @@
 // Import library yang dibutuhkan
 import { CihuyDataAPI } from "https://c-craftjs.github.io/simpelbi/api.js";
-import { UrlGetFakultas, UrlGetFakultasById } from "../controller/template.js";
+import { UrlDeleteFakultas, UrlGetFakultas, UrlGetFakultasById } from "../controller/template.js";
 import { CihuyDomReady, CihuyQuerySelector } from "https://c-craftjs.github.io/table/table.js";
 import { CihuyId } from "https://c-craftjs.github.io/element/element.js";
-import { CihuyGetCookie } from "https://c-craftjs.github.io/cookies/cookies.js";
+import { token } from "../controller/cookies.js";
 
 // Untuk Get Token
-const token = CihuyGetCookie("login");
+var header = new Headers();
+header.append("login", token);
+header.append("Content-Type", "application/json");
 
 // Get Data Jalur Pendaftaran
 CihuyDomReady(() => {
@@ -52,6 +54,19 @@ CihuyDomReady(() => {
                 const fakultasId = updateButton.getAttribute('fakultas');
                 if (fakultasId) {
                     updateFakultas(fakultasId);
+                } else {
+                    console.error("Id Fakultas Tidak Ditemukan.")
+                }
+            });
+        });
+
+        // Untuk Button delete
+        const deleteButtons = document.querySelectorAll(".btn-danger");
+        deleteButtons.forEach(deleteButton => {
+            deleteButton.addEventListener('click', () => {
+                const fakultasId = deleteButton.getAttribute('fakultas');
+                if (fakultasId) {
+                    deleteFakultas(fakultasId);
                 } else {
                     console.error("Id Fakultas Tidak Ditemukan.")
                 }
@@ -140,5 +155,52 @@ function updateFakultas(idFakultas) {
             document.getElementById('update-fakultas')
         );
         modalUpdate.show()
-})
+});
+}
+
+// Delete Data Fakultas
+function deleteFakultas(fakultasId) {
+    // Use Swal for confirmation
+    Swal.fire({
+        title: 'Hapus Fakultas?',
+        text: 'Apakah Anda yakin ingin menghapus fakultas ini?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Ya, Hapus!',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const requestOptions = {
+                method: 'DELETE',
+                headers: header,
+            };
+
+            fetch(UrlDeleteFakultas + `?id=${fakultasId}`, requestOptions)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Sukses!',
+                            text: 'Fakultas berhasil dihapus.',
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(() => {
+                            location.reload(); // Refresh the page after successful deletion
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Fakultas gagal dihapus.'
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error("Error saat melakukan DELETE Data : ", error);
+                });
+        }
+    });
 }
