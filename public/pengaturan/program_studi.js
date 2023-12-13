@@ -123,14 +123,22 @@ function submitProdi() {
     const kodeProdi = getValue('kode_prodi');
     const fakultasElement = document.getElementById('pilih-fakultas');
     const fakultas = fakultasElement.options[fakultasElement.selectedIndex].value;
-    
+
     const myData = {
         "program_studi": namaProdi,
         "kode_program_studi": kodeProdi,
         "fakultas": fakultas
     };
 
-    fetch(UrlPostProdi)
+    console.log(myData);
+
+    const requestOptions = {
+        method: 'POST',
+        headers: header,
+        body: JSON.stringify(myData)
+    };
+
+    fetch(UrlPostProdi, requestOptions)
         .then(response => response.json())
         .then(data => {
             if (data.success) {
@@ -141,7 +149,7 @@ function submitProdi() {
                     showConfirmButton: false,
                     timer: 1500
                 }).then(() => {
-                    location.replace('program_studi.html'); // Ganti window.location.href dengan location.replace
+                    location.replace('program_studi.html');
                 });
             } else {
                 Swal.fire({
@@ -158,7 +166,7 @@ function submitProdi() {
 
 const submitButton = document.getElementById('tambahDataButton');
 submitButton.addEventListener('click', (event) => {
-    event.preventDefault(); // Tambahkan baris ini
+    event.preventDefault();
     const namaProdi = getValue('nama_prodi');
     const kodeProdi = getValue('kode_prodi');
     const fakultas = getValue('pilih-fakultas');
@@ -186,6 +194,7 @@ submitButton.addEventListener('click', (event) => {
     });
 });
 
+
 // Untuk dropdown fakultas
 function fetchDataFakultas() {
     get(UrlGetFakultas, populateDropdownFakultas);
@@ -201,7 +210,7 @@ function populateDropdownFakultas(data) {
 
     data.data.forEach(item => {
         const option = document.createElement('option');
-        option.value = item.nama_fakultas;
+        option.value = item.id_fakultas;
         option.text = item.nama_fakultas;
         selectDropdown.appendChild(option);
     })
@@ -239,7 +248,7 @@ function populateDropdownFakultasUpdate(data) {
 
     data.data.forEach(item => {
         const option = document.createElement('option');
-        option.value = item.nama_fakultas;
+        option.value = item.id_fakultas;
         option.text = item.nama_fakultas;
         selectDropdown.appendChild(option);
     })
