@@ -6,6 +6,8 @@ import { getWithHeader } from "https://jscroot.github.io/api/croot.js";
 
 const main = async () => {
 
+    let token = await getCookie("login");
+
     await getWithHeader("https://komarbe.ulbi.ac.id/admin/token", "LOGIN", token, dataAdmin);
 
 
@@ -13,7 +15,7 @@ const main = async () => {
 }
 
 
-const dataAdmin = (res) =>{
+const dataAdmin = (res) => {
     if (!res.success){
         window.location.replace("../");
     }
