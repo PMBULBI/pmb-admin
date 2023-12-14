@@ -28,44 +28,49 @@ CihuyDomReady(() => {
                 // Ubah format tanggal
                 const tglDaftar = new Date(values.tgl_daftar_mhs);
                 const formattedTglDaftar = formatTanggalWaktu(tglDaftar);
-
-                    // Manipulasi data pegawai dan masukkan ke dalam bentuk tabel
-                    tableData += `
-                                <tr style="text-align: center; vertical-align: middle">
-                                <td>
-                                <div class="min-width">
-                                    <p>${index + 1}</p>
-                                </div>
-                                </td>
-                                <td class="min-width">
-                                    <p>Jalur Reguler</p>
-                                </td>
-                                <td class="min-width">
-                                    <p>${values.nama_mhs}</p>
-                                </td>
-                                <td class="min-width">
-                                    <p>${values.hp_mhs}</p>
-                                </td>
-                                <td>
-                                    <p><b><font color="teal">${values.email_mhs}</font></b></p>
-                                    <p><b><font color="teal">${values.password}</font></b></p>
-                                </td>
-                                <td>
-                                    <p>${values.asal_sekolah}</p>
-                                </td>
-                                <td>
-                                    <p>2019</p>
-                                </td>
-                                <td>
-                                    <p>${formattedTglDaftar}</p>
-                                </td>
-                                <td style="text-align: center; vertical-align: middle">
-                                    <span class="status-btn danger-btn">Belum Ada Tagihan</span>
-                                </td>
-                                <td style="text-align: center; vertical-align: middle">
-                                    <span class="status-btn danger-btn">Belum Isi Biodata</span>
-                                </td>
-                            </tr>`;
+                let spanVa = '<span class="status-btn danger-btn">Belum Ada Tagihan</span>';
+                let spanBio = '<span class="status-btn danger-btn">Belum Isi Biodata</span>';
+                if (values.status_va){
+                    spanVa = '<span class="status-btn danger-btn">UDAH ADA COKKKK VA</span>';
+                    spanBio = '<span class="status-btn danger-btn">UDAH ISI BIODATA </span>';
+                }
+                // Manipulasi data pegawai dan masukkan ke dalam bentuk tabel
+                tableData += `
+                            <tr style="text-align: center; vertical-align: middle">
+                            <td>
+                            <div class="min-width">
+                                <p>${index + 1}</p>
+                            </div>
+                            </td>
+                            <td class="min-width">
+                                <p>Jalur Reguler</p>
+                            </td>
+                            <td class="min-width">
+                                <p>${values.nama_mhs}</p>
+                            </td>
+                            <td class="min-width">
+                                <p>${values.hp_mhs}</p>
+                            </td>
+                            <td>
+                                <p><b><font color="teal">${values.email_mhs}</font></b></p>
+                                <p><b><font color="teal">${values.password}</font></b></p>
+                            </td>
+                            <td>
+                                <p>${values.asal_sekolah}</p>
+                            </td>
+                            <td>
+                                <p>2019</p>
+                            </td>
+                            <td>
+                                <p>${formattedTglDaftar}</p>
+                            </td>
+                            <td style="text-align: center; vertical-align: middle">
+                            ${spanVa}
+                            </td>
+                            <td style="text-align: center; vertical-align: middle">
+                            ${spanBio}
+                            </td>
+                        </tr>`;
                 });
                 // Tampilkan data pegawai ke dalam tabel
                 document.getElementById("tablebody").innerHTML = tableData;
