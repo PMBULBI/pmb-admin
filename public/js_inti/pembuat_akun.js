@@ -30,7 +30,7 @@ CihuyDomReady(() => {
                 const formattedTglDaftar = formatTanggalWaktu(tglDaftar);
                 let spanVa = '<span class="status-btn danger-btn">Belum Ada Tagihan</span>';
                 let spanBio = '<span class="status-btn danger-btn">Belum Isi Biodata</span>';
-                if (values.status_va){
+                if (values.status_va === true){
                     spanVa = '<span class="status-btn danger-btn">UDAH ADA COKKKK VA</span>';
                     spanBio = '<span class="status-btn danger-btn">UDAH ISI BIODATA </span>';
                 }
