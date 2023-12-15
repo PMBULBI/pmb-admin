@@ -30,9 +30,11 @@ CihuyDomReady(() => {
                 const formattedTglDaftar = formatTanggalWaktu(tglDaftar);
                 let spanVa = '<span class="status-btn danger-btn">Belum Ada Tagihan</span>';
                 let spanBio = '<span class="status-btn danger-btn">Belum Isi Biodata</span>';
+                let spanLulus = '<span class="status-btn danger-btn">Belum Isi Biodata</span>';
                 if (values.status_va === true){
                     spanVa = '<span class="status-btn success-btn">Lunas</span>';
                     spanBio = '<span class="status-btn success-btn">Biodata Lengkap</span>';
+                    spanLulus = '<button type="button" class="btn btn-success">Lulus</button>';
                 }
                 // Manipulasi data pegawai dan masukkan ke dalam bentuk tabel
                 tableData += `
@@ -69,6 +71,9 @@ CihuyDomReady(() => {
                             </td>
                             <td style="text-align: center; vertical-align: middle">
                             ${spanBio}
+                            </td>
+                            <td style="text-align: center; vertical-align: middle">
+                            ${spanLulus}
                             </td>
                         </tr>`;
                 });
