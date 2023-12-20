@@ -16,6 +16,7 @@ export let UrlGetJalurById = "https://komarbe.ulbi.ac.id/jalur/get";
 export let UrlGetFakultasById = "https://komarbe.ulbi.ac.id/fakultas/get";
 export let UrlGetProdiById = "https://komarbe.ulbi.ac.id/prodi/get";
 export let UrlGetAgamaById = "https://komarbe.ulbi.ac.id/agama/get";
+export let UrlGetTahunAkademikById = "https://komarbe.ulbi.ac.id/tahun_akademik/get";
 
 // Endpoint POST
 export let UrlPostAdminLevel = "https://komarbe.ulbi.ac.id/admin_level/post";

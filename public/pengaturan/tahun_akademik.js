@@ -1,6 +1,6 @@
 // Import library yang dibutuhkan
 import { CihuyDataAPI } from "https://c-craftjs.github.io/simpelbi/api.js";
-import { UrlGetTahunAkademik, UrlPostTahunAkademik, UrlPutTahunAkademik, UrlDeleteTahunAkademik } from "../controller/template.js";
+import { UrlGetTahunAkademik, UrlGetTahunAkademikById, UrlPostTahunAkademik, UrlPutTahunAkademik, UrlDeleteTahunAkademik } from "../controller/template.js";
 import { CihuyDomReady, CihuyQuerySelector } from "https://c-craftjs.github.io/table/table.js";
 import { CihuyId } from "https://c-craftjs.github.io/element/element.js";
 import { getValue } from "https://cdn.jsdelivr.net/gh/jscroot/element@0.0.5/croot.js";
@@ -43,8 +43,8 @@ CihuyDomReady(() => {
                             <p>${values.kode_tahun}</p>
                         </td>
                         <td style="text-align: center; vertical-align: middle">
-                            <button type="button" class="btn btn-warning" style="color: white;" prodi-id=${values.kode_program_studi} data-bs-toggle="modal" data-bs-target="#update-prodi">Edit</button>
-                            <button type="button" class="btn btn-danger" prodi-id=${values.kode_program_studi}>Hapus</button>
+                            <button type="button" class="btn btn-warning" style="color: white;" tahunakademik-id=${values.id_tahun_akademik} data-bs-toggle="modal" data-bs-target="#update-tahunakademik">Edit</button>
+                            <button type="button" class="btn btn-danger" tahunakademik-id=${values.id_tahun_akademik}>Hapus</button>
                         </td>
                     </tr>`;
         });
@@ -55,11 +55,11 @@ CihuyDomReady(() => {
         const updateButtons = document.querySelectorAll(".btn-warning");
         updateButtons.forEach(updateButton => {
             updateButton.addEventListener("click", () => {
-                const prodiId = updateButton.getAttribute('prodi-id');
-                if (prodiId) {
-                    updateProdi(prodiId);
+                const idahunAkademik = updateButton.getAttribute('tahunakademik-id');
+                if (idahunAkademik) {
+                    updateTahunAkademik(idahunAkademik);
                 } else {
-                    console.error("Id Prodi Tidak Ditemukan.")
+                    console.error("Id Tahun Akademik Tidak Ditemukan.")
                 };
             });
         });
@@ -68,11 +68,11 @@ CihuyDomReady(() => {
         const deleteButtons = document.querySelectorAll(".btn-danger");
         deleteButtons.forEach(deleteButton => {
             deleteButton.addEventListener("click", () => {
-                const prodiId = deleteButton.getAttribute('prodi-id');
-                if(prodiId) {
-                    deleteProdi(prodiId);
+                const idahunAkademik = deleteButton.getAttribute('tahunakademik-id');
+                if(idahunAkademik) {
+                    deleteTahunAkademik(idahunAkademik);
                 } else {
-                    console.error("Id Prodi Tidak Ditemukan.")
+                    console.error("Id Tahun Akademik Tidak Ditemukan.")
                 };
             });
         });
@@ -128,16 +128,13 @@ CihuyDomReady(() => {
 });
 
 // Post Program Studi
-function submitProdi() {
-    const namaProdi = getValue('nama_prodi');
-    const kodeProdi = getValue('kode_prodi');
-    const fakultasElement = document.getElementById('pilih-fakultas');
-    const fakultas = fakultasElement.options[fakultasElement.selectedIndex].value;
+function submitTahunAkademik() {
+    const namaTahunAkademik = getValue('tahun_akademik');
+    const kodeTahunAkademik = getValue('kode_tahun_akademik');
 
     const myData = {
-        "program_studi": namaProdi,
-        "kode_program_studi": kodeProdi,
-        "fakultas": fakultas
+        "tahun_akademik": namaTahunAkademik,
+        "kode_tahun": kodeTahunAkademik
     };
 
     console.log(myData);
@@ -148,24 +145,24 @@ function submitProdi() {
         body: JSON.stringify(myData)
     };
 
-    fetch(UrlPostProdi, requestOptions)
+    fetch(UrlPostTahunAkademik, requestOptions)
         .then(response => response.json())
         .then(data => {
             if (data.success) {
                 Swal.fire({
                     icon: 'success',
                     title: 'Sukses!',
-                    text: 'Program studi berhasil ditambahkan.',
+                    text: 'Tahun Akademik berhasil ditambahkan.',
                     showConfirmButton: false,
                     timer: 1500
                 }).then(() => {
-                    location.replace('program_studi.html');
+                    location.replace('tahun_akademik.html');
                 });
             } else {
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
-                    text: 'Program studi gagal ditambahkan.'
+                    text: 'Tahun Akademik gagal ditambahkan.'
                 })
             }
         })
@@ -177,10 +174,9 @@ function submitProdi() {
 const submitButton = document.getElementById('tambahDataButton');
 submitButton.addEventListener('click', (event) => {
     event.preventDefault();
-    const namaProdi = getValue('nama_prodi');
-    const kodeProdi = getValue('kode_prodi');
-    const fakultas = getValue('pilih-fakultas');
-    if (!namaProdi || !kodeProdi || !fakultas) {
+    const namaTahunAkademik = getValue('tahun_akademik');
+    const kodeTahunAkademik = getValue('kode_tahun_akademik');
+    if (!namaTahunAkademik || !kodeTahunAkademik) {
         Swal.fire({
             icon: 'warning',
             title: 'Oops...',
@@ -199,99 +195,53 @@ submitButton.addEventListener('click', (event) => {
         cancelButtonText: 'No',
     }).then((result) => {
         if (result.isConfirmed) {
-            submitProdi();
+            submitTahunAkademik();
         }
     });
 });
 
+// Get Data Tahun Akademik By Id
+function getTahunAkademikById(idTahunAkademik, callback) {
+    const apiUrlGetTahunAkademikById = UrlGetTahunAkademikById + `?id=${idTahunAkademik}`;
 
-// Untuk dropdown fakultas
-function fetchDataFakultas() {
-    get(UrlGetFakultas, populateDropdownFakultas);
-}
-function populateDropdownFakultas(data) {
-    const selectDropdown = document.getElementById('pilih-fakultas')
-    selectDropdown.innerHTML = '';
-
-    const defaultOption = document.createElement('option');
-    defaultOption.value = '';
-    defaultOption.text = 'Pilih Fakultas';
-    selectDropdown.appendChild(defaultOption);
-
-    data.data.forEach(item => {
-        const option = document.createElement('option');
-        option.value = item.id_fakultas;
-        option.text = item.nama_fakultas;
-        selectDropdown.appendChild(option);
-    })
-}
-fetchDataFakultas();
-
-// Get Data Prodi By Id
-function getProdiById(idProdi, callback) {
-    const apiUrlGetProdiById = UrlGetProdiById + `?id=${idProdi}`;
-
-    CihuyDataAPI(apiUrlGetProdiById, token, (error, response) => {
+    CihuyDataAPI(apiUrlGetTahunAkademikById, token, (error, response) => {
         if (error) {
             console.error("Terjadi kesalahan saat mengambil data program studi : ", error);
             callback(error, null);
         } else {
-            const prodiData = response.data;
-            callback(null, prodiData);
+            const tahunakademikData = response.data;
+            callback(null, tahunakademikData);
         }
     })
 }
-
-// Dropdown Fakultas di modal update
-function fetchDataFakultasUpdate() {
-    get(UrlGetFakultas, populateDropdownFakultasUpdate);
-}
-function populateDropdownFakultasUpdate(data) {
-    const selectDropdown = document.getElementById('update-fakultas')
-    selectDropdown.innerHTML = '';
-
-    const defaultOption = document.createElement('option');
-    defaultOption.value = '';
-    defaultOption.text = 'Pilih Fakultas';
-    selectDropdown.appendChild(defaultOption);
-
-    data.data.forEach(item => {
-        const option = document.createElement('option');
-        option.value = item.id_fakultas;
-        option.text = item.nama_fakultas;
-        selectDropdown.appendChild(option);
-    })
-}
-fetchDataFakultasUpdate();
 
 // Update Data Program Studi
 // Buat fungsi updatenya beserta alertnya terlebih dahulu
-function updateProdi(idProdi) {
-    getProdiById(idProdi, (error, prodiData) => {
+function updateTahunAkademik(idahunAkademik) {
+    getTahunAkademikById(idahunAkademik, (error, tahunakademikData) => {
         if (error) {
-            console.error("Gagal mengambil data prodi : ", error);
+            console.error("Gagal mengambil data Tahun Akademik : ", error);
             return;
         }
 
-        // Mengisi formulir update dengan data prodi yang diperoleh
-        document.getElementById('update-nama_prodi').value = prodiData.program_studi;
-        document.getElementById('update-kode_prodi').value = prodiData.kode_program_studi;
-        document.getElementById('update-fakultas').value = prodiData.fakultas;
+        // Mengisi formulir update dengan data Thn Akademik yang diperoleh
+        document.getElementById('update-tahun_akademik').value = tahunakademikData.tahun_akademik;
+        document.getElementById('update-kode_tahun_akademik').value = tahunakademikData.kode_tahun_akademik;
 
         // Menampilkan modal update
         const modalUpdate = new bootstrap.Modal(
-            document.getElementById('update-prodi')
+            document.getElementById('update-tahun_akademik')
         );
         modalUpdate.show();
     })
 }
 
 // Delete Data Program Studi
-function deleteProdi(prodiId) {
+function deleteTahunAkademik(idahunAkademik) {
     // Use Swal for confirmation
     Swal.fire({
-        title: 'Hapus Program Studi?',
-        text: 'Apakah Anda yakin ingin menghapus program studi ini?',
+        title: 'Hapus Tahun Akademik?',
+        text: 'Apakah Anda yakin ingin menghapus Tahun Akademik ini?',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#d33',
@@ -305,7 +255,7 @@ function deleteProdi(prodiId) {
                 headers: header,
             };
 
-            fetch(UrlDeleteProdi + `?id=${prodiId}`, requestOptions)
+            fetch(UrlDeleteTahunAkademik + `?id=${idahunAkademik}`, requestOptions)
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
