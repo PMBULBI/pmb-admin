@@ -43,7 +43,7 @@ CihuyDomReady(() => {
                             <p>${values.kode_tahun}</p>
                         </td>
                         <td style="text-align: center; vertical-align: middle">
-                            <button hidden type="button" class="btn btn-warning" style="color: white;" tahunakademik-id=${values.id_tahun_akademik} data-bs-toggle="modal" data-bs-target="#update-tahunakademik">Edit</button>
+                            <button type="button" class="btn btn-warning" style="color: white;" tahunakademik-id=${values.id_tahun_akademik} data-bs-toggle="modal" data-bs-target="#update-tahunakademik">Edit</button>
                             <button type="button" class="btn btn-danger" tahunakademik-id=${values.id_tahun_akademik}>Hapus</button>
                         </td>
                     </tr>`;
