@@ -188,8 +188,6 @@ function submitProdi() {
                     title: 'Oops...',
                     text: 'Program studi gagal ditambahkan.'
                 })
-                console.error("Error saat melakukan POST Data : ", data.status);
-                console.log(myData);
             }
         })
         .catch(error => {
