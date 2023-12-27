@@ -70,7 +70,6 @@ CihuyDomReady(() => {
                         // Mengisi formulir update dengan data prodi yang diperoleh
                         document.getElementById('update-id_prodi').value = prodiId;
                         document.getElementById('update-nama_prodi').value = prodiData.program_studi;
-                        document.getElementById('update-kode_prodi').value = prodiData.kode_program_studi;
                         document.getElementById('update-fakultas').value = prodiData.fakultas;
 
                         // Menampilkan modal update
@@ -289,13 +288,12 @@ fetchDataFakultasUpdate();
 function updateProdi(idProdi) {
     // 1. Get the updated data from the form
     const updatedNamaProdi = getValue('update-nama_prodi');
-    const updatedKodeProdi = getValue('update-kode_prodi');
     const updatedFakultas = getValue('update-fakultas');
 
     // 2. Create an object with the updated data
     const updatedData = {
         "program_studi": updatedNamaProdi,
-        "kode_program_studi": parseInt(updatedKodeProdi, 10),
+        "kode_program_studi": parseInt(idProdi, 10),
         "fakultas": parseInt(updatedFakultas, 10)
     };
 
@@ -339,10 +337,9 @@ updateButtons.addEventListener('click', (event) => {
     // 1. Get the updated data from the form
     const updatedprodiId = getValue('update-id_prodi');
     const updatedNamaProdi = getValue('update-nama_prodi');
-    const updatedKodeProdi = getValue('update-kode_prodi');
     const updatedFakultas = getValue('update-fakultas');
 
-    if (!updatedNamaProdi || !updatedKodeProdi || !updatedFakultas) {
+    if (!updatedNamaProdi || !updatedFakultas) {
         Swal.fire({
             icon: 'warning',
             title: 'Oops...',
