@@ -11,6 +11,10 @@ var header = new Headers();
 header.append("login", token);
 header.append("Content-Type", "application/json");
 
+var header2 = new Headers();
+header.append("Content-Type", "application/json");
+
+
 // Get Data Program Studi
 CihuyDomReady(() => {
     const tablebody = CihuyId("tablebody");
@@ -128,21 +132,24 @@ CihuyDomReady(() => {
 });
 
 // Post Program Studi
+// Post Program Studi
 function submitTahunAkademik() {
     const namaTahunAkademik = getValue('tahun_akademik');
     const kodeTahunAkademik = getValue('kode_tahun_akademik');
 
     const myData = {
         "tahun_akademik": namaTahunAkademik,
-        "kode_tahun": kodeTahunAkademik
+        "kode_tahun": parseInt(kodeTahunAkademik, 10) // Convert to integer
     };
 
     console.log(myData);
 
     const requestOptions = {
         method: 'POST',
-        headers: header,
-        body: JSON.stringify(myData)
+        headers: {
+            'Content-Type': 'application/json', // Set the Content-Type header
+        },
+        body: JSON.stringify(myData), // Stringify the object
     };
 
     fetch(UrlPostTahunAkademik, requestOptions)
@@ -164,6 +171,8 @@ function submitTahunAkademik() {
                     title: 'Oops...',
                     text: 'Tahun Akademik gagal ditambahkan.'
                 })
+                console.error("Error saat melakukan POST Data : ", data.status);
+                console.log(myData);
             }
         })
         .catch(error => {
