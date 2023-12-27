@@ -52,18 +52,35 @@ CihuyDomReady(() => {
         document.getElementById("tablebody").innerHTML = tableData;
 
         // Untuk Listener Button Edit
-        const updateButtons = document.querySelectorAll(".btn-warning");
-        updateButtons.forEach(updateButton => {
-            updateButton.addEventListener("click", () => {
-                const idahunAkademik = updateButton.getAttribute('tahunakademik-id');
-                if (idahunAkademik) {
-                    updateTahunAkademik(idahunAkademik);
+        const updateButton = document.querySelectorAll(".btn-warning");
+            updateButton.forEach(updateButton => {
+                updateButton.addEventListener("click", () => {
+                    const idahunAkademik = updateButton.getAttribute('tahunakademik-id');
+                    if (idahunAkademik) {
+                        // Use idahunAkademik instead of idProdi here
+                        getTahunAkademikById(idahunAkademik, (error, tahunakademikData) => {
+                        if (error) {
+                            console.error("Gagal mengambil data Tahun kaademik : ", error);
+                            return;
+                        }
+        
+                        // Mengisi formulir update dengan data prodi yang diperoleh
+                        document.getElementById('update-id_tahun').value = idahunAkademik;
+                        document.getElementById('update-tahun_akademik').value = tahunakademikData.tahun_akademik;
+                        document.getElementById('update-kode_tahun_akademik').value = tahunakademikData.kode_tahun;
+        
+                        // Menampilkan modal update
+                        const modalUpdate = new bootstrap.Modal(
+                            document.getElementById('update-tahun-akademik')
+                        );
+                        modalUpdate.show();
+                    });
                 } else {
                     console.error("Id Tahun Akademik Tidak Ditemukan.")
-                };
+                }
             });
         });
-
+                
         // Untuk Listener Button Delete
         const deleteButtons = document.querySelectorAll(".btn-danger");
         deleteButtons.forEach(deleteButton => {
@@ -217,26 +234,85 @@ function getTahunAkademikById(idTahunAkademik, callback) {
     })
 }
 
-
 // Update Data Tahun Akademik
-function updateTahunAkademik(idahunAkademik) {
-    getTahunAkademikById(idahunAkademik, (error, tahunakademikData) => {
-        if (error) {
-            console.error("Gagal mengambil data Tahun Akademik : ", error);
-            return;
-        }
+function updateTahunAkademik(idTahunAkademik) {
+    // 1. Get the updated data from the form
+    const updatedTahun = getValue('update-tahun_akademik');
+    const updatedKodeTahun = getValue('update-kode_tahun_akademik');
 
-        // Mengisi formulir update dengan data Thn Akademik yang diperoleh
-        document.getElementById('update-tahun_akademik').value = tahunakademikData.tahun_akademik;
-        document.getElementById('update-kode_tahun_akademik').value = tahunakademikData.kode_tahun_akademik;
+    // 2. Create an object with the updated data
+    const updatedData = {
+        "tahun_akademik": updatedTahun,
+        "kode_tahun": parseInt(updatedKodeTahun, 10)
+    };
 
-        // Menampilkan modal update
-        const modalUpdate = new bootstrap.Modal(
-            document.getElementById('update-tahun_akademik')
-        );
-        modalUpdate.show();
-    })
+    // 3. Send a PUT request to update the data
+    const requestOptions = {
+        method: 'PUT',
+        headers: header,
+        body: JSON.stringify(updatedData)
+    };
+
+    fetch(UrlPutTahunAkademik + `?id=${idTahunAkademik}`, requestOptions)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sukses!',
+                    text: 'Tahun Akademik berhasil diperbarui.',
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(() => {
+                    location.reload();
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Tahun Akademik gagal diperbarui.'
+                });
+            }
+        })
+        .catch(error => {
+            console.error("Error saat melakukan PUT Data : ", error);
+        });
 }
+
+const updateButtons = document.getElementById('updateDataButton');
+updateButtons.addEventListener('click', (event) => {
+    event.preventDefault();
+
+    // 1. Get the updated data from the form
+    const updatedIdTahun = getValue('update-id_tahun');
+    const updatedTahun = getValue('update-tahun_akademik');
+    const updatedKodeTahun = getValue('update-kode_tahun_akademik');
+
+    if (!updatedTahun || !updatedKodeTahun) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Oops...',
+            text: 'Semua field harus diisi!',
+        });
+        return;
+    }
+
+    // 3. Confirm the update with Swal
+    Swal.fire({
+        title: 'Edit Tahun Akademik?',
+        text: 'Apakah anda yakin ingin mengubah TahunAkademik?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            updateTahunAkademik(updatedIdTahun);
+        }
+    });
+});
 
 // Delete Data Tahun akademik
 function deleteTahunAkademik(idahunAkademik) {
