@@ -15,7 +15,7 @@ var header2 = new Headers();
 header.append("Content-Type", "application/json");
 
 
-// Get Data Program Studi
+// Get Data Tahun akademik
 CihuyDomReady(() => {
     const tablebody = CihuyId("tablebody");
     const buttonPreviousPage = CihuyId("prevPageBtn");
@@ -131,8 +131,7 @@ CihuyDomReady(() => {
 	});
 });
 
-// Post Program Studi
-// Post Program Studi
+// Post Tahun akademik
 function submitTahunAkademik() {
     const namaTahunAkademik = getValue('tahun_akademik');
     const kodeTahunAkademik = getValue('kode_tahun_akademik');
@@ -194,8 +193,8 @@ submitButton.addEventListener('click', (event) => {
         return;
     }
     Swal.fire({
-        title: 'Tambah Program Studi?',
-        text: 'Apakah anda yakin ingin tambah program studi?',
+        title: 'Tambah Tahun akademik?',
+        text: 'Apakah anda yakin ingin tambah Tahun akademik?',
         icon: 'question',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -215,7 +214,7 @@ function getTahunAkademikById(idTahunAkademik, callback) {
 
     CihuyDataAPI(apiUrlGetTahunAkademikById, token, (error, response) => {
         if (error) {
-            console.error("Terjadi kesalahan saat mengambil data program studi : ", error);
+            console.error("Terjadi kesalahan saat mengambil data Tahun Akademik : ", error);
             callback(error, null);
         } else {
             const tahunakademikData = response.data;
@@ -224,8 +223,7 @@ function getTahunAkademikById(idTahunAkademik, callback) {
     })
 }
 
-// Update Data Program Studi
-// Buat fungsi updatenya beserta alertnya terlebih dahulu
+// Update Data Tahun Akademik
 function updateTahunAkademik(idahunAkademik) {
     getTahunAkademikById(idahunAkademik, (error, tahunakademikData) => {
         if (error) {
@@ -245,7 +243,7 @@ function updateTahunAkademik(idahunAkademik) {
     })
 }
 
-// Delete Data Program Studi
+// Delete Data Tahun akademik
 function deleteTahunAkademik(idahunAkademik) {
     // Use Swal for confirmation
     Swal.fire({
@@ -271,7 +269,7 @@ function deleteTahunAkademik(idahunAkademik) {
                         Swal.fire({
                             icon: 'success',
                             title: 'Sukses!',
-                            text: 'Program studi berhasil dihapus.',
+                            text: 'Tahun akademik berhasil dihapus.',
                             showConfirmButton: false,
                             timer: 1500
                         }).then(() => {
@@ -281,7 +279,7 @@ function deleteTahunAkademik(idahunAkademik) {
                         Swal.fire({
                             icon: 'error',
                             title: 'Oops...',
-                            text: 'Program studi gagal dihapus.'
+                            text: 'Tahun akademik gagal dihapus.'
                         });
                     }
                 })
