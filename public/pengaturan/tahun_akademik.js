@@ -202,7 +202,7 @@ submitButton.addEventListener('click', (event) => {
     });
 });
 
-// Get Data Tahun Akademik By Id
+// Get Tahun Akademik By Id
 function getTahunAkademikById(idTahunAkademik, callback) {
     const apiUrlGetTahunAkademikById = UrlGetTahunAkademikById + `?id=${idTahunAkademik}`;
 
@@ -216,6 +216,7 @@ function getTahunAkademikById(idTahunAkademik, callback) {
         }
     })
 }
+
 
 // Update Data Tahun Akademik
 function updateTahunAkademik(idahunAkademik) {

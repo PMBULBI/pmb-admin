@@ -139,8 +139,8 @@ function submitProdi() {
 
     const myData = {
         "program_studi": namaProdi,
-        "kode_program_studi": kodeProdi,
-        "fakultas": fakultas
+        "kode_program_studi": parseInt(kodeProdi, 10),
+        "fakultas": parseInt(fakultas, 10)
     };
 
     console.log(myData);
@@ -170,6 +170,8 @@ function submitProdi() {
                     title: 'Oops...',
                     text: 'Program studi gagal ditambahkan.'
                 })
+                console.error("Error saat melakukan POST Data : ", data.status);
+                console.log(myData);
             }
         })
         .catch(error => {
