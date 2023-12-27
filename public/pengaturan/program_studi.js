@@ -1,6 +1,6 @@
 // Import library yang dibutuhkan
 import { CihuyDataAPI } from "https://c-craftjs.github.io/simpelbi/api.js";
-import { UrlGetFakultas, UrlGetProdi, UrlGetProdiById, UrlPostProdi, UrlDeleteProdi } from "../controller/template.js";
+import { UrlGetFakultas, UrlGetProdi, UrlGetProdiById, UrlPostProdi, UrlPutProdi, UrlDeleteProdi } from "../controller/template.js";
 import { CihuyDomReady, CihuyQuerySelector } from "https://c-craftjs.github.io/table/table.js";
 import { CihuyId } from "https://c-craftjs.github.io/element/element.js";
 import { getValue } from "https://cdn.jsdelivr.net/gh/jscroot/element@0.0.5/croot.js";
@@ -53,17 +53,35 @@ CihuyDomReady(() => {
         });
         // Tampilkan data pegawai ke dalam tabel
         document.getElementById("tablebody").innerHTML = tableData;
-
+        
         // Untuk Listener Button Edit
-        const updateButtons = document.querySelectorAll(".btn-warning");
-        updateButtons.forEach(updateButton => {
+        const updateButton = document.querySelectorAll(".btn-warning");
+        updateButton.forEach(updateButton => {
             updateButton.addEventListener("click", () => {
                 const prodiId = updateButton.getAttribute('prodi-id');
                 if (prodiId) {
-                    updateProdi(prodiId);
+                    // Use prodiId instead of idProdi here
+                    getProdiById(prodiId, (error, prodiData) => {
+                        if (error) {
+                            console.error("Gagal mengambil data prodi : ", error);
+                            return;
+                        }
+
+                        // Mengisi formulir update dengan data prodi yang diperoleh
+                        document.getElementById('update-id_prodi').value = prodiId;
+                        document.getElementById('update-nama_prodi').value = prodiData.program_studi;
+                        document.getElementById('update-kode_prodi').value = prodiData.kode_program_studi;
+                        document.getElementById('update-fakultas').value = prodiData.fakultas;
+
+                        // Menampilkan modal update
+                        const modalUpdate = new bootstrap.Modal(
+                            document.getElementById('update-prodi')
+                        );
+                        modalUpdate.show();
+                    });
                 } else {
                     console.error("Id Prodi Tidak Ditemukan.")
-                };
+                }
             });
         });
 
@@ -270,26 +288,91 @@ function populateDropdownFakultasUpdate(data) {
 fetchDataFakultasUpdate();
 
 // Update Data Program Studi
-// Buat fungsi updatenya beserta alertnya terlebih dahulu
 function updateProdi(idProdi) {
-    getProdiById(idProdi, (error, prodiData) => {
-        if (error) {
-            console.error("Gagal mengambil data prodi : ", error);
-            return;
-        }
+    // 1. Get the updated data from the form
+    const updatedNamaProdi = getValue('update-nama_prodi');
+    const updatedKodeProdi = getValue('update-kode_prodi');
+    const updatedFakultas = getValue('update-fakultas');
 
-        // Mengisi formulir update dengan data prodi yang diperoleh
-        document.getElementById('update-nama_prodi').value = prodiData.program_studi;
-        document.getElementById('update-kode_prodi').value = prodiData.kode_program_studi;
-        document.getElementById('update-fakultas').value = prodiData.fakultas;
+    // 2. Create an object with the updated data
+    const updatedData = {
+        "program_studi": updatedNamaProdi,
+        "kode_program_studi": parseInt(updatedKodeProdi, 10),
+        "fakultas": parseInt(updatedFakultas, 10)
+    };
 
-        // Menampilkan modal update
-        const modalUpdate = new bootstrap.Modal(
-            document.getElementById('update-prodi')
-        );
-        modalUpdate.show();
-    })
+    // 3. Send a PUT request to update the data
+    const requestOptions = {
+        method: 'PUT',
+        headers: header,
+        body: JSON.stringify(updatedData)
+    };
+
+    fetch(UrlPutProdi + `?id=${idProdi}`, requestOptions)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sukses!',
+                    text: 'Program studi berhasil diperbarui.',
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(() => {
+                    location.reload(); // Refresh the page after successful update
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Program studi gagal diperbarui.'
+                });
+            }
+        })
+        .catch(error => {
+            console.error("Error saat melakukan PUT Data : ", error);
+        });
 }
+
+const updateButtons = document.getElementById('updateDataButton');
+updateButtons.addEventListener('click', (event) => {
+    event.preventDefault();
+
+    // 1. Get the updated data from the form
+    const updatedprodiId = getValue('update-id_prodi');
+    const updatedNamaProdi = getValue('update-nama_prodi');
+    const updatedKodeProdi = getValue('update-kode_prodi');
+    const updatedFakultas = getValue('update-fakultas');
+
+    if (!updatedNamaProdi || !updatedKodeProdi || !updatedFakultas) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Oops...',
+            text: 'Semua field harus diisi!',
+        });
+        return;
+    }
+
+    // 2. Get the prodiId from the clicked button
+    const prodiId = updateButtons.getAttribute('prodi-id');
+
+    // 3. Confirm the update with Swal
+    Swal.fire({
+        title: 'Edit Program Studi?',
+        text: 'Apakah anda yakin ingin mengubah program studi?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // 4. Call updateProdi with prodiId
+            updateProdi(updatedprodiId);
+        }
+    });
+});
 
 // Delete Data Program Studi
 function deleteProdi(prodiId) {

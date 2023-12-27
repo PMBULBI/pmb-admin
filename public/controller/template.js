@@ -31,6 +31,7 @@ export let UrlPutAdminLevel = "https://komarbe.ulbi.ac.id/admin_level/put";
 export let UrlPutAdmin = "https://komarbe.ulbi.ac.id/admin/put";
 export let UrlPutJalur = "https://komarbe.ulbi.ac.id/jalur/put";
 export let UrlPutFakultas = "https://komarbe.ulbi.ac.id/fakultas/put";
+export let UrlPutProdi = "https://komarbe.ulbi.ac.id/prodi/put";
 export let UrlPutTahunAkademik = "https://komarbe.ulbi.ac.id/tahun_akademik/put";
 
 // Endpoint DELETE
